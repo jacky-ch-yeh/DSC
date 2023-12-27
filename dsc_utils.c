@@ -86,7 +86,9 @@ void putbits(int val, int size, unsigned char *buf, int *bit_count)
 	int bufidx;
 
 	if(size>32)
-		printf("error: putbits supports max of 32 bits\n");
+	{
+		//printf("error: putbits supports max of 32 bits\n");
+	}
 	for(i=size-1; i>=0; --i)
 	{
 		bitcntmod8 = (*bit_count)%8;
@@ -151,32 +153,32 @@ void rgb2ycocg(pic_t *ip, pic_t *op, dsc_cfg_t *dsc_cfg)
 
 	if (ip->chroma != YUV_444)
 	{
-		fprintf(stderr, "ERROR: rgb2yuv() Incorrect input chroma type.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: rgb2yuv() Incorrect input chroma type.\n");
+		exit(1);*/
 	}
 
 	if (ip->color != RGB)
 	{
-		fprintf(stderr, "ERROR: rgb2yuv() Incorrect input color type.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: rgb2yuv() Incorrect input color type.\n");
+		exit(1);*/
 	}
 
 	if (ip->w != op->w || ip->h != op->h)
 	{
-		fprintf(stderr, "ERROR: rgb2yuv() Incorrect picture size.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: rgb2yuv() Incorrect picture size.\n");
+		exit(1);*/
 	}
 
 	if (op->chroma != YUV_444)
 	{
-		fprintf(stderr, "ERROR: rgb2yuv() Incorrect output chroma type.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: rgb2yuv() Incorrect output chroma type.\n");
+		exit(1);*/
 	}
 
 	if (op->color != YUV_SD && op->color != YUV_HD)
 	{
-		fprintf(stderr, "ERROR: rgb2yuv() Incorrect output color type.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: rgb2yuv() Incorrect output color type.\n");
+		exit(1);*/
 	}
 
 	half = 1 << (ip->bits-1);
@@ -230,32 +232,32 @@ void ycocg2rgb(pic_t *ip, pic_t *op, dsc_cfg_t* dsc_cfg)
 
 	if (ip->chroma != YUV_444)
 	{
-		fprintf(stderr, "ERROR: Incorrect input chroma type.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: Incorrect input chroma type.\n");
+		exit(1);*/
 	}
 
 	if (ip->color != YUV_SD && ip->color != YUV_HD)
 	{
-		fprintf(stderr, "ERROR: Incorrect input color type.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: Incorrect input color type.\n");
+		exit(1);*/
 	}
 
 	if (ip->w != op->w || ip->h != op->h)
 	{
-		fprintf(stderr, "ERROR: Incorrect picture size.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: Incorrect picture size.\n");
+		exit(1);*/
 	}
 
 	if (op->chroma != YUV_444)
 	{
-		fprintf(stderr, "ERROR: Incorrect output chroma type.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: Incorrect output chroma type.\n");
+		exit(1);*/
 	}
 
 	if (op->color != RGB)
 	{
-		fprintf(stderr, "ERROR: Incorrect output color type.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: Incorrect output color type.\n");
+		exit(1);*/
 	}
 
 	half = 1 << (ip->bits-1);
@@ -310,13 +312,13 @@ void simple422to444(pic_t *ip, pic_t *op)
 	// *MODEL NOTE* MN_SIMPLE_422_444
 	if((ip->w != op->w) || (ip->h != op->h))
 	{
-		fprintf(stderr, "ERROR: simple422to444() expects input and output raster sizes to match\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: simple422to444() expects input and output raster sizes to match\n");
+		exit(1);*/
 	}
 	if((op->color == RGB) || (ip->chroma != YUV_422) || (op->chroma != YUV_444))
 	{
-		fprintf(stderr, "ERROR: simple422to444() expects 4:2:2 input and 4:4:4 output\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: simple422to444() expects 4:2:2 input and 4:4:4 output\n");
+		exit(1);*/
 	}
 	pcopy_header(ip, op);
 
@@ -348,13 +350,13 @@ void simple444to422(pic_t *ip, pic_t *op)
 	// *MODEL NOTE* MN_SIMPLE_444_422
 	if((ip->w != op->w) || (ip->h != op->h))
 	{
-		fprintf(stderr, "ERROR: simple444to422() expects input and output raster sizes to match\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: simple444to422() expects input and output raster sizes to match\n");
+		exit(1);*/
 	}
 	if((ip->color == RGB) || (op->chroma != YUV_422) || (ip->chroma != YUV_444))
 	{
-		fprintf(stderr, "ERROR: simple444to422() expects 4:4:4 input and 4:2:2 output\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: simple444to422() expects 4:4:4 input and 4:2:2 output\n");
+		exit(1);*/
 	}
 	pcopy_header(ip, op);
 
@@ -372,21 +374,21 @@ void simple444to422(pic_t *ip, pic_t *op)
 	}
 }
 
-void yuv_422_444_region(pic_t *p, dsc_cfg_t *dsc_cfg)
-{
-	printf("yuv_422_444_region not supported\n");
-	exit(1);
-}
+//void yuv_422_444_region(pic_t *p, dsc_cfg_t *dsc_cfg)
+//{
+//	printf("yuv_422_444_region not supported\n");
+//	exit(1);
+//}
 
 
 //
 // Chroma 444 to 422 conversion.
 //
-void yuv_444_422_region(pic_t *p, dsc_cfg_t *dsc_cfg)
-{
-	printf("yuv_444_422_region not supported\n");
-	exit(1);
-}
+//void yuv_444_422_region(pic_t *p, dsc_cfg_t *dsc_cfg)
+//{
+//	printf("yuv_444_422_region not supported\n");
+//	exit(1);
+//}
 
 
 /*!
@@ -407,7 +409,9 @@ void parse_pps(unsigned char *buf, dsc_cfg_t *dsc_cfg)
 	int i;
 
 	if(getbits(4, buf, &nbits, 0) != 1)
-		UErr("PPS parser: Expected dsc_version_major=1\n");
+	{
+		//UErr("PPS parser: Expected dsc_version_major=1\n");
+	}
 	dsc_cfg->dsc_version_minor = getbits(4, buf, &nbits, 0);
 	dsc_cfg->pps_identifier = getbits(8, buf, &nbits, 0);
 	getbits(8, buf, &nbits, 0);   // Reserved (ignored)	

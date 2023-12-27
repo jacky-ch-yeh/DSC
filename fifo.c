@@ -83,8 +83,8 @@ int fifo_get_bits(fifo_t *fifo, int n, int sign_extend)
 
 	if (fifo->fullness < n)
 	{
-		printf("FIFO underflow!\n");
-		exit(1);
+		/*printf("FIFO underflow!\n");
+		exit(1);*/
 	}
 
 	for (i=0; i<n; ++i)
@@ -119,8 +119,8 @@ void fifo_put_bits(fifo_t *fifo, unsigned int d, int nbits)
 
 	if (fifo->fullness + nbits > fifo->size)
 	{
-		printf("FIFO overflow!\n");
-		exit(1);
+		/*printf("FIFO overflow!\n");
+		exit(1);*/
 	}
 
 	fifo->fullness += nbits;
@@ -180,8 +180,8 @@ int fifo_flip_get_bits(fifo_t *fifo, int n, int sign_extend)
 
 	if (fifo->fullness < n)
 	{
-		printf("FIFO underflow!\n");
-		exit(1);
+		/*printf("FIFO underflow!\n");
+		exit(1);*/
 	}
 
 	// Note, you need to allocate 32 bits more than you plan to use so the reordering doesn't get overwritten
@@ -222,8 +222,8 @@ void fifo_flip_put_bits(fifo_t *fifo, unsigned int d, int nbits)
 
 	if (fifo->fullness + nbits > fifo->size)
 	{
-		printf("FIFO overflow!\n");
-		exit(1);
+		/*printf("FIFO overflow!\n");
+		exit(1);*/
 	}
 
 	fifo->fullness += nbits;

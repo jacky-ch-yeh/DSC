@@ -184,8 +184,8 @@ void hdr_dpx_rle_encode(datum_list_t *dlist, int d_per_pixel)
 		//	printf("debug\n");
 		if (cur->count > maxrun || cur->count == 0)
 		{
-			fprintf(stderr, "hdr_dpx_rle_encode(): something went wrong\n");
-			exit(1);
+			/*fprintf(stderr, "hdr_dpx_rle_encode(): something went wrong\n");
+			exit(1);*/
 		}
 		cur->next = (rle_ll_t *)malloc(sizeof(rle_ll_t));
 		cur = cur->next;
@@ -221,8 +221,8 @@ void hdr_dpx_rle_encode(datum_list_t *dlist, int d_per_pixel)
 
 	if (n != dlist_out.ndatum)
 	{
-		fprintf(stderr, "hdr_dpx_rle_encode(): something went wrong\n");
-		exit(1);
+		/*fprintf(stderr, "hdr_dpx_rle_encode(): something went wrong\n");
+		exit(1);*/
 	}
 
 	free(dlist->d);
@@ -259,18 +259,18 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 	{
 		if (f->ImageHeader.ImageElement[i].BitSize != bits)
 		{
-			fprintf(stderr, "hdr_dpx_create_pic(): This implementation does not support different bit depths for different image elements\n");
-			return(DPX_ERROR_PIC_MAP_FAILED);
+			/*fprintf(stderr, "hdr_dpx_create_pic(): This implementation does not support different bit depths for different image elements\n");
+			return(DPX_ERROR_PIC_MAP_FAILED);*/
 		}
 		if(f->ImageHeader.ImageElement[i].Transfer != f->ImageHeader.ImageElement[0].Transfer)
 		{
-			fprintf(stderr, "hdr_dpx_create_pic(): This implementation does not support different transfer functions for different image elements\n");
-			return(DPX_ERROR_PIC_MAP_FAILED);
+			/*fprintf(stderr, "hdr_dpx_create_pic(): This implementation does not support different transfer functions for different image elements\n");
+			return(DPX_ERROR_PIC_MAP_FAILED);*/
 		}
 		if (f->ImageHeader.ImageElement[i].Colorimetric != f->ImageHeader.ImageElement[0].Colorimetric)
 		{
-			fprintf(stderr, "hdr_dpx_create_pic(): This implementation does not support different colorimetry for different image elements\n");
-			return(DPX_ERROR_PIC_MAP_FAILED);
+			/*fprintf(stderr, "hdr_dpx_create_pic(): This implementation does not support different colorimetry for different image elements\n");
+			return(DPX_ERROR_PIC_MAP_FAILED);*/
 		}
 
 		switch (f->ImageHeader.ImageElement[i].Descriptor)
@@ -284,8 +284,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color++;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			break;
 		case HDRDPX_DESC_R:
@@ -298,13 +298,13 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color = RGB;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): incompatible image element types\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): incompatible image element types\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			if (chroma != YUV_444 && chroma != YUV_4444)
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): incompatible image element types\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): incompatible image element types\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			break;
 		case HDRDPX_DESC_A:
@@ -318,8 +318,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color = YUV_HD;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): Y component encountered for RGB picture\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): Y component encountered for RGB picture\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			break;
 		case HDRDPX_DESC_CbCr:
@@ -328,8 +328,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color = YUV_HD;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): CbCr 4:2:2 component encountered for RGB picture\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): CbCr 4:2:2 component encountered for RGB picture\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			chroma = YUV_422;
 			chroma_siting = (f->ImageHeader.ChromaSubsampling >> (4 * i)) & 0xf;
@@ -341,8 +341,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color = YUV_HD;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): Cb or Cr 4:2:0 component encountered for RGB picture\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): Cb or Cr 4:2:0 component encountered for RGB picture\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			chroma = YUV_420;
 			chroma_siting = (f->ImageHeader.ChromaSubsampling >> (4 * i)) & 0xf;
@@ -357,13 +357,13 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color = RGB;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): incompatible image element types\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): incompatible image element types\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			if (chroma != YUV_444 && chroma != YUV_4444)
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): incompatible image element types\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): incompatible image element types\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			chroma = YUV_4444;
 			alpha = 1;
@@ -373,8 +373,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color = YUV_HD;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): CbCr 4:2:2 component encountered for RGB picture\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): CbCr 4:2:2 component encountered for RGB picture\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			chroma = YUV_422;
 			alpha = 1;
@@ -385,8 +385,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color = YUV_HD;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): Y component encountered for RGB picture\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): Y component encountered for RGB picture\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			alpha = 1;
 			break;
@@ -395,8 +395,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color = YUV_HD;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): Cb or Cr 4:2:0 component encountered for RGB picture\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): Cb or Cr 4:2:0 component encountered for RGB picture\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			chroma = YUV_420;
 			alpha = 1;
@@ -409,8 +409,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color += 2;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			break;
 		case HDRDPX_DESC_G3C:
@@ -420,8 +420,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color += 3;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			break;
 		case HDRDPX_DESC_G4C:
@@ -431,8 +431,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color += 4;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			break;
 		case HDRDPX_DESC_G5C:
@@ -442,8 +442,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color += 5;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			break;
 		case HDRDPX_DESC_G6C:
@@ -453,8 +453,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color += 6;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			break;
 		case HDRDPX_DESC_G7C:
@@ -464,8 +464,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color = G_8C;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): too many generic components\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			break;
 		case HDRDPX_DESC_G8C:
@@ -473,8 +473,8 @@ int hdr_dpx_create_pic(HDRDPXFILEFORMAT *f, pic_t **out_pic)
 				color = G_8C;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_create_pic(): unsupported image element configuration\n");
-				return(DPX_ERROR_PIC_MAP_FAILED);
+				/*fprintf(stderr, "hdr_dpx_create_pic(): unsupported image element configuration\n");
+				return(DPX_ERROR_PIC_MAP_FAILED);*/
 			}
 			break;
 		}
@@ -740,7 +740,7 @@ int hdr_dpx_map_datum_to_pic(HDRDPXFILEFORMAT *f, pic_t *p, datum_ptrs_t *dptr)
 			dptr->hbuff[i] /= 2;
 			break;
 		case HDRDPX_DESC_RGB_OLD:
-			fprintf(stderr, "hdr_dpx_write() WARNING: descriptor 50 has differing interpretations among implementations. Suggest to use 53 or 56 instead\n");
+			//fprintf(stderr, "hdr_dpx_write() WARNING: descriptor 50 has differing interpretations among implementations. Suggest to use 53 or 56 instead\n");
 		case HDRDPX_DESC_BGR:
 			if (f->ImageHeader.ImageElement[i].BitSize < 32)
 			{
@@ -763,7 +763,7 @@ int hdr_dpx_map_datum_to_pic(HDRDPXFILEFORMAT *f, pic_t *p, datum_ptrs_t *dptr)
 			dptr->ndatum[i] = 3;
 			break;
 		case HDRDPX_DESC_RGBA_OLD:
-			fprintf(stderr, "hdr_dpx_write() WARNING: descriptor 51 has differing interpretations among implementations. Suggest to use 54, 55, 57, or 58.\n");
+			//fprintf(stderr, "hdr_dpx_write() WARNING: descriptor 51 has differing interpretations among implementations. Suggest to use 54, 55, 57, or 58.\n");
 		case HDRDPX_DESC_BGRA:
 			if (f->ImageHeader.ImageElement[i].BitSize < 32)
 			{
@@ -789,7 +789,7 @@ int hdr_dpx_map_datum_to_pic(HDRDPXFILEFORMAT *f, pic_t *p, datum_ptrs_t *dptr)
 			dptr->ndatum[i] = 4;
 			break;
 		case HDRDPX_DESC_ABGR_OLD:
-			fprintf(stderr, "hdr_dpx_write() WARNING: descriptor 52 has differing interpretations among implementations. Suggest to use 54, 55, 57, or 58.\n");
+			//fprintf(stderr, "hdr_dpx_write() WARNING: descriptor 52 has differing interpretations among implementations. Suggest to use 54, 55, 57, or 58.\n");
 		case HDRDPX_DESC_ARGB:
 			if (f->ImageHeader.ImageElement[i].BitSize < 32)
 			{
@@ -1067,8 +1067,8 @@ int hdr_dpx_map_datum_to_pic(HDRDPXFILEFORMAT *f, pic_t *p, datum_ptrs_t *dptr)
 			}
 			break;
 		default:
-			fprintf(stderr, "hdr_dpx_write() error: unrecognized descriptor %d", f->ImageHeader.ImageElement[i].Descriptor);
-			return(DPX_ERROR_BAD_PARAMETER);
+			/*fprintf(stderr, "hdr_dpx_write() error: unrecognized descriptor %d", f->ImageHeader.ImageElement[i].Descriptor);
+			return(DPX_ERROR_BAD_PARAMETER);*/
 		}
 	}
 	return(0);
@@ -1084,7 +1084,9 @@ int hdr_dpx_pic_to_datum_list(HDRDPXFILEFORMAT *f, datum_list_t *dlist, pic_t *p
 	int dwords_per_datum;
 
 	if ((err = hdr_dpx_map_datum_to_pic(f, p, &dptr)) != 0)
-		return(err);
+	{
+		//return(err);
+	}
 
 	for (e = 0; e < f->ImageHeader.NumberElements; e++) // Loop over image elements
 	{
@@ -1139,8 +1141,8 @@ int hdr_dpx_pic_to_datum_list(HDRDPXFILEFORMAT *f, datum_list_t *dlist, pic_t *p
 		{
 			if (f->ImageHeader.ImageElement[e].BitSize >= 32)
 			{
-				fprintf(stderr, "hdr_dpx_pic_to_datum_list() warning: RLE not supported with floating-point samples for image element %d\n", e);
-				f->ImageHeader.ImageElement[e].Encoding = 0;
+				/*fprintf(stderr, "hdr_dpx_pic_to_datum_list() warning: RLE not supported with floating-point samples for image element %d\n", e);
+				f->ImageHeader.ImageElement[e].Encoding = 0;*/
 			}
 			else
 				hdr_dpx_rle_encode(&dlist[e], dptr.ndatum[e]);
@@ -1189,9 +1191,13 @@ int hdr_dpx_get_pic_data(HDRDPXFILEFORMAT *f, FILE *fp, pic_t **p, int bswap)
 	fifo_init(&fifo, 64);
 
 	if ((err = hdr_dpx_create_pic(f, p)) != 0)
-		return (err);
+	{
+		//return (err);
+	}
 	if ((err = hdr_dpx_map_datum_to_pic(f, *p, &dptr)) != 0)
-		return(err);
+	{
+		//return(err);
+	}
 
 	rle_state = 0;   // Reading flag
 	for (e = 0; e < f->ImageHeader.NumberElements; e++) // Loop over image elements
@@ -1230,7 +1236,9 @@ int hdr_dpx_get_pic_data(HDRDPXFILEFORMAT *f, FILE *fp, pic_t **p, int bswap)
 						{
 							oflow++;
 							if(oflow > 2)	// We expect to read a little past EOF since we're reading ahead
-								return(DPX_ERROR_CORRUPTED_FILE);
+							{
+								//return(DPX_ERROR_CORRUPTED_FILE);
+							}
 						}
 						fifo_put_bits(&fifo, READ_DPX_32(d), 32);
 					}
@@ -1249,16 +1257,16 @@ int hdr_dpx_get_pic_data(HDRDPXFILEFORMAT *f, FILE *fp, pic_t **p, int bswap)
 								{
 									if (fifo_flip_get_bits(&fifo, 2, 0))
 									{
-										fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
-										return(DPX_ERROR_CORRUPTED_FILE);
+										/*fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
+										return(DPX_ERROR_CORRUPTED_FILE);*/
 									}
 								}
 								else // 12-bit
 								{ 
 									if (fifo_flip_get_bits(&fifo, 4, 0))
 									{
-										fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
-										return(DPX_ERROR_CORRUPTED_FILE);
+										/*fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
+										return(DPX_ERROR_CORRUPTED_FILE);*/
 									}
 								}
 							}
@@ -1271,16 +1279,16 @@ int hdr_dpx_get_pic_data(HDRDPXFILEFORMAT *f, FILE *fp, pic_t **p, int bswap)
 							{ 
 								if (fifo_get_bits(&fifo, 2, 0))
 								{
-									fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
-									return(DPX_ERROR_CORRUPTED_FILE);
+									/*fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
+									return(DPX_ERROR_CORRUPTED_FILE);*/
 								}
 							}
 							else if (fifo.fullness == 64 - 12 || fifo.fullness == 64 - 28)
 							{ 
 								if (fifo_get_bits(&fifo, 4, 0))
 								{
-									fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
-									return(DPX_ERROR_CORRUPTED_FILE);
+									/*fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
+									return(DPX_ERROR_CORRUPTED_FILE);*/
 								}
 							}
 						}
@@ -1294,16 +1302,16 @@ int hdr_dpx_get_pic_data(HDRDPXFILEFORMAT *f, FILE *fp, pic_t **p, int bswap)
 							{
 								if (fifo_flip_get_bits(&fifo, 2, 0))
 								{
-									fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
-									return(DPX_ERROR_CORRUPTED_FILE);
+									/*fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
+									return(DPX_ERROR_CORRUPTED_FILE);*/
 								}
 							}
 							else if (fifo.fullness == 64 - 12 || fifo.fullness == 64 - 28)
 							{
 								if (fifo_flip_get_bits(&fifo, 4, 0))
 								{
-									fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
-									return(DPX_ERROR_CORRUPTED_FILE);
+									/*fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
+									return(DPX_ERROR_CORRUPTED_FILE);*/
 								}
 							}
 						}
@@ -1315,16 +1323,16 @@ int hdr_dpx_get_pic_data(HDRDPXFILEFORMAT *f, FILE *fp, pic_t **p, int bswap)
 								{
 									if (fifo_get_bits(&fifo, 2, 0))
 									{
-										fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
-										return(DPX_ERROR_CORRUPTED_FILE);
+										/*fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
+										return(DPX_ERROR_CORRUPTED_FILE);*/
 									}
 								}
 								else
 								{
 									if (fifo_get_bits(&fifo, 4, 0))
 									{
-										fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
-										return(DPX_ERROR_CORRUPTED_FILE);
+										/*fprintf(stderr, "hdr_dpx_get_pic_data(): Unexpected non-zero bits\n");
+										return(DPX_ERROR_CORRUPTED_FILE);*/
 									}
 								}
 							}
@@ -1332,8 +1340,8 @@ int hdr_dpx_get_pic_data(HDRDPXFILEFORMAT *f, FILE *fp, pic_t **p, int bswap)
 						}
 						break;
 					default:
-						fprintf(stderr, "hdr_dpx_write() - unsupported packing format %d\n", f->ImageHeader.ImageElement[e].Packing);
-						return(DPX_ERROR_BAD_PARAMETER);
+						/*fprintf(stderr, "hdr_dpx_write() - unsupported packing format %d\n", f->ImageHeader.ImageElement[e].Packing);
+						return(DPX_ERROR_BAD_PARAMETER);*/
 					}
 
 					if (f->ImageHeader.ImageElement[e].Encoding == 0)  // No RLE
@@ -1386,7 +1394,9 @@ int hdr_dpx_get_pic_data(HDRDPXFILEFORMAT *f, FILE *fp, pic_t **p, int bswap)
 										xindex[k] += dptr.stride[e][k] << (f->ImageHeader.ImageElement[e].BitSize == 64);
 										if ((dptr.stride[e][k] == 1 && xindex[k] > dptr.wbuff[e]) ||
 											(dptr.stride[e][k] == 2 && xindex[k] > 2 * dptr.wbuff[e] + 1))
-											printf("debug\n");
+										{
+											//printf("debug\n");
+										}
 									}
 									j++;
 								}
@@ -1406,7 +1416,9 @@ int hdr_dpx_get_pic_data(HDRDPXFILEFORMAT *f, FILE *fp, pic_t **p, int bswap)
 							xindex[k] += dptr.stride[e][k] << (f->ImageHeader.ImageElement[e].BitSize == 64);
 							if ((dptr.stride[e][k] == 1 && xindex[k] > dptr.wbuff[e]) ||
 								(dptr.stride[e][k] == 2 && xindex[k] > 2 * dptr.wbuff[e] + 1))
-								printf("debug\n");
+							{
+								//printf("debug\n");
+							}
 							if (k == dptr.ndatum[e] - 1)
 							{
 								rle_count--;
@@ -1426,7 +1438,9 @@ int hdr_dpx_get_pic_data(HDRDPXFILEFORMAT *f, FILE *fp, pic_t **p, int bswap)
 				for (pad = 0; pad < f->ImageHeader.ImageElement[e].EndOfLinePadding / 4; ++pad)
 				{
 					if(fread(&d, 4, 1, fp) != 1)
-						return(DPX_ERROR_CORRUPTED_FILE);
+					{
+						//return(DPX_ERROR_CORRUPTED_FILE);
+					}
 					fifo_put_bits(&fifo, READ_DPX_32(d), 32);
 					if (f->FileHeader.DatumMappingDirection == 0)
 						fifo_flip_get_bits(&fifo, 32, 0);
@@ -1527,8 +1541,8 @@ int hdr_dpx_compute_offsets(HDRDPXFILEFORMAT *dpxh, HDRDPXUSERDATA *dpxu, HDRDPX
 	{
 		if (dpxh->FileHeader.ImageOffset < min_image_offset)
 		{
-			fprintf(stderr, "hdr_dpx_write() error: Image offset must be at least %d", min_image_offset);
-			return(DPX_ERROR_BAD_PARAMETER);
+			/*fprintf(stderr, "hdr_dpx_write() error: Image offset must be at least %d", min_image_offset);
+			return(DPX_ERROR_BAD_PARAMETER);*/
 		}
 	}
 	return(0);
@@ -1622,8 +1636,8 @@ int hdr_dpx_fill_core_fields(HDRDPXFILEFORMAT *dpxh, pic_t *p)
 				dpxh->ImageHeader.ImageElement[i].Descriptor = p->color - G_2C + HDRDPX_DESC_G2C;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_fill_core_fields() encountered unrecognized color/chroma type\n");
-				return(DPX_ERROR_UNRECOGNIZED_CHROMA);
+				/*fprintf(stderr, "hdr_dpx_fill_core_fields() encountered unrecognized color/chroma type\n");
+				return(DPX_ERROR_UNRECOGNIZED_CHROMA);*/
 			}
 		}
 		if (dpxh->ImageHeader.ImageElement[i].Transfer == UINT8_MAX)
@@ -1648,8 +1662,8 @@ int hdr_dpx_fill_core_fields(HDRDPXFILEFORMAT *dpxh, pic_t *p)
 			else if (p->transfer == TF_SRGB)		dpxh->ImageHeader.ImageElement[i].Transfer = HDRDPX_TF_IEC_61966_2_1;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_fill_core_fields() encountered an unrecognized transfer curve %d", p->transfer);
-				return(DPX_ERROR_BAD_PARAMETER);
+				/*fprintf(stderr, "hdr_dpx_fill_core_fields() encountered an unrecognized transfer curve %d", p->transfer);
+				return(DPX_ERROR_BAD_PARAMETER);*/
 			}
 		}
 		if (dpxh->ImageHeader.ImageElement[i].Colorimetric == UINT8_MAX)
@@ -1668,8 +1682,8 @@ int hdr_dpx_fill_core_fields(HDRDPXFILEFORMAT *dpxh, pic_t *p)
 			else if (p->colorimetry == C_ACES)		dpxh->ImageHeader.ImageElement[i].Colorimetric = HDRDPX_C_ST_2065_1_ACES;
 			else
 			{
-				fprintf(stderr, "hdr_dpx_fill_core_fields() encountered an unrecognized colorimetry %d", p->colorimetry);
-				return(DPX_ERROR_BAD_PARAMETER);
+				/*fprintf(stderr, "hdr_dpx_fill_core_fields() encountered an unrecognized colorimetry %d", p->colorimetry);
+				return(DPX_ERROR_BAD_PARAMETER);*/
 			}
 		}
 		if (dpxh->ImageHeader.ImageElement[i].BitSize == UINT8_MAX)
@@ -1780,7 +1794,9 @@ int hdr_dpx_write(char *fname, pic_t *p, HDRDPXFILEFORMAT *dpxh, HDRDPXUSERDATA 
 
 	/* File header details */
 	if ((err = hdr_dpx_compute_offsets(dpxh, dpxu, dpxsbm)) != 0)
-		return(err);
+	{
+		//return(err);
+	}
 	/* Start by copying over ASCII & U8 fields */
 	memcpy(&f, dpxh, sizeof(HDRDPXFILEFORMAT));
 	/* Then fill in automatic and non-overridable fields and byte swap as needed */
@@ -1788,8 +1804,8 @@ int hdr_dpx_write(char *fname, pic_t *p, HDRDPXFILEFORMAT *dpxh, HDRDPXUSERDATA 
 
 	if ((fp = fopen(fname, "wb")) == NULL)
 	{
-		fprintf(stderr, "Cannot open %s for output\n", fname);
-		exit(1);
+		/*fprintf(stderr, "Cannot open %s for output\n", fname);
+		exit(1);*/
 	}
 
 	fseek(fp, f.FileHeader.ImageOffset, SEEK_SET);
@@ -1857,8 +1873,8 @@ int hdr_dpx_write(char *fname, pic_t *p, HDRDPXFILEFORMAT *dpxh, HDRDPXUSERDATA 
 				}
 				break;
 			default:
-				fprintf(stderr, "hdr_dpx_write() - unsupported packing format %d\n", f.ImageHeader.ImageElement[e].Packing);
-				return(DPX_ERROR_BAD_PARAMETER);
+				/*fprintf(stderr, "hdr_dpx_write() - unsupported packing format %d\n", f.ImageHeader.ImageElement[e].Packing);
+				return(DPX_ERROR_BAD_PARAMETER);*/
 			}
 					
 			while (fifo.fullness >= 32)
@@ -1974,13 +1990,13 @@ int hdr_dpx_read(char *fname, pic_t **p, HDRDPXFILEFORMAT *dpxh, HDRDPXUSERDATA 
 
 	if ((fp = fopen(fname, "rb")) == NULL)
 	{
-		fprintf(stderr, "Error: Cannot read HDR DPX file %s\n", fname); 
+		/*fprintf(stderr, "Error: Cannot read HDR DPX file %s\n", fname); 
 		perror("Cannot read HDR DPX file");
-		return(DPX_ERROR_BAD_FILENAME);
+		return(DPX_ERROR_BAD_FILENAME);*/
 	}
 	if (fread(&magic, 1, 4, fp) != 4)
 	{
-		return(DPX_ERROR_CORRUPTED_FILE);
+		/*return(DPX_ERROR_CORRUPTED_FILE);*/
 	}
 	fseek(fp, 0, SEEK_SET);
 
@@ -1989,13 +2005,15 @@ int hdr_dpx_read(char *fname, pic_t **p, HDRDPXFILEFORMAT *dpxh, HDRDPXUSERDATA 
 	else if (magic == 0x58504453)
 		bswap = 1;
 	else
-		return(DPX_ERROR_CORRUPTED_FILE);
+	{
+		//return(DPX_ERROR_CORRUPTED_FILE);
+	}
 
 	memset(&f, 0, sizeof(HDRDPXFILEFORMAT));
 	if (fread(&f, sizeof(HDRDPXFILEFORMAT), 1, fp) == 0)
 	{
-		fprintf(stderr, "Error: Tried to HDR read corrupted DPX file %s\n", fname);
-		return(DPX_ERROR_CORRUPTED_FILE);
+		/*fprintf(stderr, "Error: Tried to HDR read corrupted DPX file %s\n", fname);
+		return(DPX_ERROR_CORRUPTED_FILE);*/
 	}
 
 	if(bswap)
@@ -2005,7 +2023,9 @@ int hdr_dpx_read(char *fname, pic_t **p, HDRDPXFILEFORMAT *dpxh, HDRDPXUSERDATA 
 	if (ecode)
 		return(ecode);
 	if((*p)==NULL)
-		return(DPX_ERROR_MALLOC_FAIL);
+	{
+		//return(DPX_ERROR_MALLOC_FAIL);
+	}
 	if (dpxh != NULL)
 		memcpy(dpxh, &f, sizeof(HDRDPXFILEFORMAT));
 
@@ -2017,8 +2037,8 @@ int hdr_dpx_read(char *fname, pic_t **p, HDRDPXFILEFORMAT *dpxh, HDRDPXUSERDATA 
 			dpxsbm->SbmFormatDescriptor[i] = fgetc(fp);
 		if (fread(&d, 4, 1, fp) == 0)
 		{
-			fprintf(stderr, "Error: Tried to HDR read corrupted DPX file %s\n", fname);
-			return(DPX_ERROR_CORRUPTED_FILE);
+			/*fprintf(stderr, "Error: Tried to HDR read corrupted DPX file %s\n", fname);
+			return(DPX_ERROR_CORRUPTED_FILE);*/
 		}
 		dpxsbm->SbmLength = READ_DPX_32(d);
 		if (dpxsbm->SbmLength > 0)
@@ -2056,12 +2076,14 @@ int	 hdr_dpx_determine_file_type(char *fname)
 
 	if ((fp = fopen(fname, "rb")) == NULL)
 	{
-		fprintf(stderr, "hdr_dpx_determine_file_type(): can't open input file %s", fname);
-		return(-1);
+		/*fprintf(stderr, "hdr_dpx_determine_file_type(): can't open input file %s", fname);
+		return(-1);*/
 	}
 
 	if(fread(&f, sizeof(HDRDPXFILEFORMAT), 1, fp) != 1)
-		return(DPX_ERROR_CORRUPTED_FILE);
+	{
+		//return(DPX_ERROR_CORRUPTED_FILE);
+	}
 
 	if (!strcmp(f.FileHeader.Version, "V1.0"))
 		type = 1;
@@ -2071,8 +2093,8 @@ int	 hdr_dpx_determine_file_type(char *fname)
 		type = 3;
 	else 
 	{
-		fprintf(stderr, "hdr_dpx_determine_file_type(): Unrecognized version field\n");
-		type = -1;
+		/*fprintf(stderr, "hdr_dpx_determine_file_type(): Unrecognized version field\n");
+		type = -1;*/
 	}
 
 	fclose(fp);

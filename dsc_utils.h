@@ -66,7 +66,7 @@ void print_pps_v2(FILE *logfp, dsc_cfg_t *dsc_cfg);
 
 int ceil_log2(int val);
 
-void yuv_422_444_region(pic_t *p, dsc_cfg_t *dsc_cfg);
-void yuv_444_422_region(pic_t *p, dsc_cfg_t *dsc_cfg);
+//void yuv_422_444_region(pic_t *p, dsc_cfg_t *dsc_cfg);
+//void yuv_444_422_region(pic_t *p, dsc_cfg_t *dsc_cfg);
 
 #endif // __DSC_UTILS_H_

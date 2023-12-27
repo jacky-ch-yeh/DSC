@@ -703,7 +703,9 @@ int PickBestHistoryValue(dsc_cfg_t *dsc_cfg, dsc_state_t *dsc_state, int hPos, u
 	}
 
 	if(best==99)
-		printf("ICH search failed\n");
+	{
+		//printf("ICH search failed\n");
+	}
 	return (best);
 }
 
@@ -774,7 +776,9 @@ void UseICHistory(dsc_cfg_t *dsc_cfg, dsc_state_t *dsc_state, int **currLine)
 	hPos = dsc_state->hPos - dsc_state->pixelsInGroup + 1;
 	
 	if(g_verbose)
-		printf("Using ICH values: \n");
+	{
+		//printf("Using ICH values: \n");
+	}
 	// Apply ICH decision to reconstructed line & update ICH values.
 	for (i=0; i<dsc_state->ichIndicesInGroup; ++i)
 	{
@@ -787,14 +791,18 @@ void UseICHistory(dsc_cfg_t *dsc_cfg, dsc_state_t *dsc_state, int **currLine)
 			p[3] = dsc_state->ichPixels[i][3];
 
 			if(g_verbose)
-				printf("%d(%d %d %d %d), ", dsc_state->ichLookup[i], p[0], p[1], p[2], p[3]);
+			{
+				//printf("%d(%d %d %d %d), ", dsc_state->ichLookup[i], p[0], p[1], p[2], p[3]);
+			}
 			// Update reconstructed line and output picture
 			for (cpnt=0; cpnt<dsc_state->numComponents; ++cpnt)
 				currLine[cpnt][(hPos+i)+PADDING_LEFT] = p[cpnt];
 		}
 	}
 	if(g_verbose)
-		printf("\n");
+	{
+		//printf("\n");
+	}
 }
 
 
@@ -1032,8 +1040,8 @@ int FindResidualSize(int eq)
 	else if (eq >= -131702 && eq <= 131701) size_e = 18;
 	else
 	{
-		printf("unexpectedly large residual size\n");
-		return 0;
+		/*printf("unexpectedly large residual size\n");
+		return 0;*/
 	}
 
 	return size_e;
@@ -1689,7 +1697,9 @@ void VLCGroup(dsc_cfg_t *dsc_cfg, dsc_state_t *dsc_state, unsigned char **byte_o
 	{
 		fifo_put_bits(&(dsc_state->seSizeFifo[i]), dsc_state->encBalanceFifo[i].fullness - start_fullness[i], 8);
 		if(dsc_state->encBalanceFifo[i].fullness - start_fullness[i] > dsc_state->maxSeSize[i])
-			printf("SE Size FIFO too small\n");
+		{
+			//printf("SE Size FIFO too small\n");
+		}
 	}
 
 	gc = dsc_state->groupCount;  
@@ -1718,10 +1728,10 @@ void VLCGroup(dsc_cfg_t *dsc_cfg, dsc_state_t *dsc_state, unsigned char **byte_o
 	dsc_state->bufferFullness += dsc_state->numBits - dsc_state->prevNumBits;
 	if ( dsc_state->bufferFullness > dsc_cfg->rcb_bits ) {
 		// This check may actually belong after tgt_bpg has been subtracted
-		printf("The buffer model has overflowed.  This probably occurred due to an error in the\n");
+		/*printf("The buffer model has overflowed.  This probably occurred due to an error in the\n");
 		printf("rate control parameter programming.\n\n");
 		printf( "ERROR: RCB overflow; size is %d, tried filling to %d\n", dsc_cfg->rcb_bits, dsc_state->bufferFullness );
-		exit(1);
+		exit(1);*/
 	}
 	dsc_state->codedGroupSize = dsc_state->numBits - dsc_state->prevNumBits;
 
@@ -1946,8 +1956,8 @@ void VLDGroup(dsc_cfg_t* dsc_cfg, dsc_state_t* dsc_state, unsigned char** byte_i
 
 	if ( dsc_state->bufferFullness > dsc_cfg->rcb_bits ) {
 		// This check may actually belong after tgt_bpg has been subtracted
-		printf("The buffer model has overflowed.  This probably occurred due to an attempt to decode an invalid DSC stream.\n\n");
-		printf( "ERROR: RCB overflow; size is %d, tried filling to %d\n", dsc_cfg->rcb_bits, dsc_state->bufferFullness );
+		/*printf("The buffer model has overflowed.  This probably occurred due to an attempt to decode an invalid DSC stream.\n\n");
+		printf( "ERROR: RCB overflow; size is %d, tried filling to %d\n", dsc_cfg->rcb_bits, dsc_state->bufferFullness );*/
 		dsc_state->errorOccurred = 1;
 	}
 	
@@ -2352,7 +2362,9 @@ void PredictionLoop(dsc_cfg_t *dsc_cfg, dsc_state_t *dsc_state, int hPos, int vP
 			err_raw = actual_x - FindMidpoint(dsc_state, cpnt, qlevel);
 
 			if(g_verbose)
-				printf("Cpnt %d: ql=%d, pred=%d, act=%d, qr=%d, mp=%d, mqr=%d\n", cpnt, qlevel, pred_x, actual_x, err_q, actual_x - err_raw, QuantizeResidual(err_raw, qlevel));
+			{
+				//printf("Cpnt %d: ql=%d, pred=%d, act=%d, qr=%d, mp=%d, mqr=%d\n", cpnt, qlevel, pred_x, actual_x, err_q, actual_x - err_raw, QuantizeResidual(err_raw, qlevel));
+			}
 
 			assert (residual_index>=0 && residual_index<SAMPLES_PER_UNIT);
 			// store to array
@@ -2383,7 +2395,9 @@ void PredictionLoop(dsc_cfg_t *dsc_cfg, dsc_state_t *dsc_state, int hPos, int vP
 				pred_x = FindMidpoint(dsc_state, cpnt, qlevel);
 			}
 			if(g_verbose)
-				printf("Cpnt %d: ql=%d, pred=%d, qr=%d, usemp=%d\n", cpnt, qlevel, pred_x, err_q, dsc_state->useMidpoint[unit]);
+			{
+				//printf("Cpnt %d: ql=%d, pred=%d, qr=%d, usemp=%d\n", cpnt, qlevel, pred_x, err_q, dsc_state->useMidpoint[unit]);
+			}
 		}
 
 		//-----------------------------------------------------------------
@@ -2428,7 +2442,9 @@ void PredictionLoop(dsc_cfg_t *dsc_cfg, dsc_state_t *dsc_state, int hPos, int vP
 		// Save reconstructed value in line store
 		dsc_state->currLine[cpnt][hPos+PADDING_LEFT] = recon_x;
 		if(g_verbose)
-			printf("Recon=%d\n", recon_x);
+		{
+			//printf("Recon=%d\n", recon_x);
+		}
 	}
 }
 
@@ -2564,13 +2580,13 @@ int DSC_Algorithm(int isEncoder, dsc_cfg_t* dsc_cfg, pic_t* ip, pic_t* op, unsig
 	
 	if (isEncoder && dsc_cfg->native_422 && dsc_cfg->convert_rgb)
 	{
-		yuv_444_422_region(pic, dsc_cfg);
+		//yuv_444_422_region(pic, dsc_cfg);
 	}
 
 	if ( pic->bits != dsc_cfg->bits_per_component )
 	{
-		printf("ERROR: Expect picture bit depth to match configuration\n");
-		exit(1);
+		/*printf("ERROR: Expect picture bit depth to match configuration\n");
+		exit(1);*/
 	}
 
 	dsc_state = InitializeDSCState( dsc_cfg, &dsc_state_storage );
@@ -2689,7 +2705,9 @@ int DSC_Algorithm(int isEncoder, dsc_cfg_t* dsc_cfg, pic_t* ip, pic_t* op, unsig
 
 				// Have to do ICH lookup here & remember pixel values
 				if(g_verbose)
-					printf("hPos = %d\n", hPos);
+				{
+					//printf("hPos = %d\n", hPos);
+				}
 				HistoryLookup(dsc_cfg, dsc_state, dsc_state->ichLookup[scnt], dsc_state->ichPixels[scnt], hPos,
                               (vPos==0) || (vPos==1 && dsc_cfg->native_420), vPos%2);
 
@@ -2761,9 +2779,9 @@ int DSC_Algorithm(int isEncoder, dsc_cfg_t* dsc_cfg, pic_t* ip, pic_t* op, unsig
 					}
 					else
 					{
-						printf("The buffer model encountered an underflow.  This may have occurred due to\n");
+						/*printf("The buffer model encountered an underflow.  This may have occurred due to\n");
 						printf("an excessively high programmed constant bit rate\n");
-						exit(1);
+						exit(1);*/
 					}
 				}
 				// Reset residuals to 0
@@ -2779,20 +2797,26 @@ int DSC_Algorithm(int isEncoder, dsc_cfg_t* dsc_cfg, pic_t* ip, pic_t* op, unsig
 				if(dsc_state->ichSelected)
 				{
 					if(g_verbose)
-						printf("Using ICH %d ", hPos-dsc_state->pixelsInGroup+1);
+					{
+						//printf("Using ICH %d ", hPos - dsc_state->pixelsInGroup + 1);
+					}
 					for(i=0; i<dsc_state->pixelsInGroup; ++i)
 					{
 						HistoryLookup(dsc_cfg, dsc_state, dsc_state->ichLookup[i], dsc_state->ichPixels[i], 
                                       hPos-dsc_state->pixelsInGroup+1, 
                                       (vPos==0) || (vPos==1 && dsc_cfg->native_420), vPos%2);
 						if(g_verbose)
-							printf("%d %d %d  ", dsc_state->ichPixels[i][0], dsc_state->ichPixels[i][1], dsc_state->ichPixels[i][2]);
+						{
+							//printf("%d %d %d  ", dsc_state->ichPixels[i][0], dsc_state->ichPixels[i][1], dsc_state->ichPixels[i][2]);
+						}
 					}				
 					UseICHistory(dsc_cfg, dsc_state, dsc_state->currLine);
 				}
 
 				if(g_verbose)
-					printf("sample=%d\n", dsc_state->currLine[2][5+0]);
+				{
+					//printf("sample=%d\n", dsc_state->currLine[2][5 + 0]);
+				}
 				for (cpnt=0; cpnt < dsc_state->numComponents; ++cpnt)
 				{
 					dsc_state->leftRecon[cpnt] = currLine[cpnt][(MIN(dsc_state->sliceWidth-1, hPos))+PADDING_LEFT];
@@ -2817,9 +2841,9 @@ int DSC_Algorithm(int isEncoder, dsc_cfg_t* dsc_cfg, pic_t* ip, pic_t* op, unsig
 					}
 					else
 					{
-						printf("The buffer model encountered an underflow.  This may have occurred due to\n");
+						/*printf("The buffer model encountered an underflow.  This may have occurred due to\n");
 						printf("an excessively high constant bit rate or due to an attempt to decode an\n");
-						printf("invalid DSC stream.\n");
+						printf("invalid DSC stream.\n");*/
 						dsc_state->errorOccurred = 1;
 					}
 				}
@@ -2961,9 +2985,9 @@ int DSC_Algorithm(int isEncoder, dsc_cfg_t* dsc_cfg, pic_t* ip, pic_t* op, unsig
 				RemoveBitsEncoderBuffer(dsc_cfg, dsc_state);
 			if(dsc_state->chunkCount > dsc_cfg->slice_height - 1)
 			{
-				printf("Chunk count was greater than the number of slice lines. This is an unexpected\n");
+				/*printf("Chunk count was greater than the number of slice lines. This is an unexpected\n");
 				printf("fatal error.\n");
-				exit(1);
+				exit(1);*/
 			}
 		}
 
@@ -2975,7 +2999,7 @@ int DSC_Algorithm(int isEncoder, dsc_cfg_t* dsc_cfg, pic_t* ip, pic_t* op, unsig
 
 	if (dsc_cfg->native_422 && dsc_cfg->convert_rgb)
 	{
-		yuv_422_444_region(op, dsc_cfg);
+		//yuv_422_444_region(op, dsc_cfg);
 	}
 
 	if ( dsc_cfg->convert_rgb ) {
@@ -3006,9 +3030,9 @@ int DSC_Algorithm(int isEncoder, dsc_cfg_t* dsc_cfg, pic_t* ip, pic_t* op, unsig
 
 	if (isEncoder && (dsc_state->bufferFullness > ((dsc_cfg->initial_xmit_delay * dsc_cfg->bits_per_pixel) >> 4)))
 	{
-		printf("Too many bits are left in the rate buffer at the end of the slice.  This is most likely\n");
+		/*printf("Too many bits are left in the rate buffer at the end of the slice.  This is most likely\n");
 		printf("due to an invalid RC configuration.\n");
-		exit(1);
+		exit(1);*/
 	}
 #ifdef PRINTDEBUG
 	fclose(g_fp_dbg);

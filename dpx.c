@@ -469,8 +469,8 @@ int write_dpx_ver(char *fname, pic_t *p, int ar1, int ar2, int frameno, int seql
 
 	if ((fp = fopen(fname, "wb")) == NULL)
 	{
-		fprintf(stderr, "Cannot open %s for output\n", fname);
-		exit(1);
+		/*fprintf(stderr, "Cannot open %s for output\n", fname);
+		exit(1);*/
 	}
 
 	fseek(fp, 8192, SEEK_SET);
@@ -764,13 +764,13 @@ int dpx_read_hl(char *fname, pic_t **p, int* highdata, int*lowdata, int pad_ends
 
 	if ((fp = fopen(fname, "rb")) == NULL)
 	{
-		fprintf(stderr, "Error: Cannot read DPX file %s\n", fname); 
+		/*fprintf(stderr, "Error: Cannot read DPX file %s\n", fname); 
 		perror("Cannot read DPX file");
-		return(DPX_ERROR_BAD_FILENAME);
+		return(DPX_ERROR_BAD_FILENAME);*/
 	}
 	if (fread(&magic, 1, 4, fp) != 4)
 	{
-		return(DPX_ERROR_CORRUPTED_FILE);
+		//return(DPX_ERROR_CORRUPTED_FILE);
 	}
 	fseek(fp, 0, SEEK_SET);
 	system_is_le = (fgetc(fp) == 'S') ^ (magic == 0x53445058);
@@ -780,7 +780,9 @@ int dpx_read_hl(char *fname, pic_t **p, int* highdata, int*lowdata, int pad_ends
 	else if (magic == 0x58504453)
 		bswap = 1;
 	else
-		return(DPX_ERROR_CORRUPTED_FILE);
+	{
+		//return(DPX_ERROR_CORRUPTED_FILE);
+	}
 
 	if(noswap)  // Force BE order (swap if LE system)
 		data_bswap = system_is_le;
@@ -791,8 +793,8 @@ int dpx_read_hl(char *fname, pic_t **p, int* highdata, int*lowdata, int pad_ends
 	memset(&f, 0, sizeof(DPXFILEFORMAT));
 	if (fread(&f, sizeof(DPXFILEFORMAT), 1, fp) == 0)
 	{
-		fprintf(stderr, "Error: Tried to read corrupted DPX file %s\n", fname);
-		return(DPX_ERROR_CORRUPTED_FILE);
+		/*fprintf(stderr, "Error: Tried to read corrupted DPX file %s\n", fname);
+		return(DPX_ERROR_CORRUPTED_FILE);*/
 	}
 
 	w = READ_DPX_32(f.ImageHeader.PixelsPerLine);
@@ -1000,11 +1002,11 @@ static int read_dpx_image_data(FILE *fp, pic_t **p, int orientation, int sign, i
 	subsampled_x[0] = 0; subsampled_x[1] = 0; subsampled_x[2] = 0; subsampled_x[3] = 0;
 	if (0 != rle)
 	{
-		return DPX_ERROR_NOT_IMPLEMENTED;
+		//return DPX_ERROR_NOT_IMPLEMENTED;
 	}
 	if (orientation != 0)
 	{
-		return(DPX_ERROR_NOT_IMPLEMENTED);
+		//return(DPX_ERROR_NOT_IMPLEMENTED);
 	}
 
 	for (b = 0; b < 4; b++)
@@ -1218,7 +1220,7 @@ static int read_dpx_image_data(FILE *fp, pic_t **p, int orientation, int sign, i
 		hbuff[1] = h/2;
 		break;
 	default:
-		return(DPX_ERROR_NOT_IMPLEMENTED);
+		/*return(DPX_ERROR_NOT_IMPLEMENTED);*/
 	}
 
 	for (b = 0; b < nbuffer; b++)
@@ -1276,13 +1278,17 @@ static int read_dpx_image_data(FILE *fp, pic_t **p, int orientation, int sign, i
 									fifo_get_bits(&fifo, 10, sign);
 								if(nelement == 2)
 									if((fifo_get_bits(&fifo, 2, 0) != 0) && !feof(fp))
-										return(DPX_ERROR_CORRUPTED_FILE);
+									{
+										//return(DPX_ERROR_CORRUPTED_FILE);
+									}
 							}
 							else if(packing == 2)  // Method B
 							{
 								if(nelement == 2)
 									if((fifo_get_bits(&fifo, 2, 0) == 0) && !feof(fp))
-										return(DPX_ERROR_CORRUPTED_FILE);
+									{
+										//return(DPX_ERROR_CORRUPTED_FILE);
+									}
 	 							if(!skip_read[k])
  									ptr[b][k][i][xindex] = fifo_get_bits(&fifo, 10, sign);
 								else
@@ -1300,7 +1306,9 @@ static int read_dpx_image_data(FILE *fp, pic_t **p, int orientation, int sign, i
 							{
 								if(nelement == 0)
 									if((fifo_flip_get_bits(&fifo, 2, 0) != 0) && !feof(fp))
-										return(DPX_ERROR_CORRUPTED_FILE);
+									{
+										//return(DPX_ERROR_CORRUPTED_FILE);
+									}
 	 							if(!skip_read[k])
  									ptr[b][k][i][xindex] = fifo_flip_get_bits(&fifo, 10, sign);
 								else
@@ -1314,7 +1322,9 @@ static int read_dpx_image_data(FILE *fp, pic_t **p, int orientation, int sign, i
 									fifo_flip_get_bits(&fifo, 10, sign);
 								if(nelement == 2)
 									if((fifo_flip_get_bits(&fifo, 2, 0) == 0) && !feof(fp))
-										return(DPX_ERROR_CORRUPTED_FILE);
+									{
+										//return(DPX_ERROR_CORRUPTED_FILE);
+									}
 							}								
 						}
 						nelement = (nelement+1)%3;
@@ -1336,12 +1346,16 @@ static int read_dpx_image_data(FILE *fp, pic_t **p, int orientation, int sign, i
 								else
 									fifo_get_bits(&fifo, 12, sign);
 								if((fifo_get_bits(&fifo, 4, 0) != 0) && !feof(fp))
-									return(DPX_ERROR_CORRUPTED_FILE);
+								{
+									//return(DPX_ERROR_CORRUPTED_FILE);
+								}
 							}
 							else if(packing == 2)  // Method B
 							{
 								if((fifo_get_bits(&fifo, 4, 0) == 0) && !feof(fp))
-									return(DPX_ERROR_CORRUPTED_FILE);
+								{
+									//return(DPX_ERROR_CORRUPTED_FILE);
+								}
 	 							if(!skip_read[k])
  									ptr[b][k][i][xindex] = fifo_get_bits(&fifo, 12, sign);
 								else
@@ -1358,7 +1372,9 @@ static int read_dpx_image_data(FILE *fp, pic_t **p, int orientation, int sign, i
 							else if(packing == 1)  // Method A
 							{
 								if((fifo_flip_get_bits(&fifo, 4, 0) != 0) && !feof(fp))
-									return(DPX_ERROR_CORRUPTED_FILE);
+								{
+									//return(DPX_ERROR_CORRUPTED_FILE);
+								}
 	 							if(!skip_read[k])
  									ptr[b][k][i][xindex] = fifo_flip_get_bits(&fifo, 12, sign);
 								else
@@ -1371,7 +1387,9 @@ static int read_dpx_image_data(FILE *fp, pic_t **p, int orientation, int sign, i
 								else
 									fifo_flip_get_bits(&fifo, 12, sign);
 								if((fifo_flip_get_bits(&fifo, 4, 0) == 0) && !feof(fp))
-									return(DPX_ERROR_CORRUPTED_FILE);
+								{
+									//return(DPX_ERROR_CORRUPTED_FILE);
+								}
 							}
 						}
 						break;
@@ -1396,7 +1414,7 @@ static int read_dpx_image_data(FILE *fp, pic_t **p, int orientation, int sign, i
 						ptr[b][k][i][xindex] = uival;
 						break;
 					default:
-						return(DPX_ERROR_NOT_IMPLEMENTED);
+						//return(DPX_ERROR_NOT_IMPLEMENTED);
 					}
 				}
 			}
@@ -1428,7 +1446,7 @@ static int create_dpx_pic(pic_t **p, chroma_t chroma, color_t color, int w, int 
 	{
 		if ((chroma != (*p)->chroma) || (color != (*p)->color))
 		{
-			return(DPX_ERROR_MISMATCH);
+			//return(DPX_ERROR_MISMATCH);
 		}
 	}
 

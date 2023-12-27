@@ -318,16 +318,16 @@ static int parse_cfgfile (char* fn, cmdarg_t *cmdargs)
 
     if (NULL == fn)
     {
-        Err("%s called with NULL file name", __FUNCTION__);
+        //Err("%s called with NULL file name", __FUNCTION__);
     }
     if (0 == fn[0])
     {
-        Err("empty configuration file name");
+        //Err("empty configuration file name");
     }
     fd = fopen(fn, "r");
     if (NULL == fd)
     {
-        PErr("cannot open file '%s'", fn);
+        //PErr("cannot open file '%s'", fn);
     }
     fn[0] = '\0';
     while (NULL != fgets(line, CFGLINE_LEN, fd)) // we re-use the storage
@@ -336,7 +336,7 @@ static int parse_cfgfile (char* fn, cmdarg_t *cmdargs)
     }
     if (!feof(fd))
     {
-        PErr("while reading from file '%s'", fn);
+        //PErr("while reading from file '%s'", fn);
     }
     fclose(fd);
     return 0;
@@ -359,7 +359,7 @@ static int assign_line (char* line, cmdarg_t *cmdargs)
 {
     if (!parse_line (line, cmdargs))
     {
-        UErr("unknown configuration field '%s'", line);
+        //UErr("unknown configuration field '%s'", line);
     }
     if ('\0' != filepath[0])   // config file
     {
@@ -374,16 +374,16 @@ static int assign_line (char* line, cmdarg_t *cmdargs)
  *    usage() - Print the usage message
  ************************************************************************
  */
-void usage(void)
-{
-	printf("Usage: DSC <options>\n");
-	printf(" Option list:\n");
-	printf("  -help => print this message\n");
-	printf("  -F <cfg_file> => Specify configuration file (required)\n");
-	printf("  -O\"PARAMETER <value>\" => override config file parameter PARAMETER with new value\n");
-	printf("  See README.txt for a list of parameters.\n");
-	exit(1);
-}
+//void usage(void)
+//{
+//	printf("Usage: DSC <options>\n");
+//	printf(" Option list:\n");
+//	printf("  -help => print this message\n");
+//	printf("  -F <cfg_file> => Specify configuration file (required)\n");
+//	printf("  -O\"PARAMETER <value>\" => override config file parameter PARAMETER with new value\n");
+//	printf("  See README.txt for a list of parameters.\n");
+//	exit(1);
+//}
 
 /*!
  ************************************************************************
@@ -412,7 +412,7 @@ static int process_args(int argc, char *argv[], cmdarg_t *cmdargs)
 
     if (1 == argc) // no arguments
     {
-        usage();
+        //usage();
     }
 
     /* process each argument */
@@ -425,7 +425,7 @@ static int process_args(int argc, char *argv[], cmdarg_t *cmdargs)
         {
             if (help) // help
             {
-                usage();
+                //usage();
             }
             if (0 != filepath[0])   // config file
             {
@@ -440,8 +440,8 @@ static int process_args(int argc, char *argv[], cmdarg_t *cmdargs)
         }
         if (argv[i][0]=='-')
         {
-            fprintf(stderr, "ERROR: Unknown option '%s'!\n", argv[i]);
-            usage();
+            /*fprintf(stderr, "ERROR: Unknown option '%s'!\n", argv[i]);
+            usage();*/
         }
         incr = 1;
         switch (expected_arg)
@@ -455,8 +455,8 @@ static int process_args(int argc, char *argv[], cmdarg_t *cmdargs)
             strcpy(fn_o, argv[i]);
             break;
         default:  /* input file name */
-            fprintf(stderr, "ERROR: Unexpected argument %s (in=%s, out=%s)", argv[i], fn_i, fn_o);
-            usage();
+            /*fprintf(stderr, "ERROR: Unexpected argument %s (in=%s, out=%s)", argv[i], fn_i, fn_o);
+            usage();*/
         }
     }
 
@@ -493,8 +493,8 @@ void split_base_and_ext(char *infname, char *base_name, char **extension)
 	}
 	if ((dot < slash) || (dot < 0))
 	{
-		printf("ERROR: picture format unrecognized\n");
-		exit(1);
+		/*printf("ERROR: picture format unrecognized\n");
+		exit(1);*/
 	}
 	strcpy(base_name, &(infname[slash+1]));
 	*extension = &(base_name[dot-slash]);
@@ -726,18 +726,22 @@ int compute_rc_parameters(dsc_cfg_t *dsc_cfg, int pixelsPerGroup, int numSsps)
 	dsc_cfg->final_offset = final_value;
 	RANGE_CHECK("final_offset", dsc_cfg->final_offset, 0, 65535);
 	if (final_value >= dsc_cfg->rc_model_size)
-		UErr("The final_offset must be less than the rc_model_size.  Try increasing initial_xmit_delay.\n");
+	{
+		//UErr("The final_offset must be less than the rc_model_size.  Try increasing initial_xmit_delay.\n");
+	}
 	final_scale = 8 * dsc_cfg->rc_model_size / (dsc_cfg->rc_model_size - final_value);
 	if (final_scale > 63)
+	{
 		printf("WARNING: A final scale value > than 63/8 may have undefined behavior on some implementations.  Try increasing initial_xmit_delay.\n");
+	}
 	if(dsc_cfg->slice_height > 1)
 		dsc_cfg->nfl_bpg_offset = (int)ceil((double)(dsc_cfg->first_line_bpg_ofs << OFFSET_FRACTIONAL_BITS) / (dsc_cfg->slice_height - 1));
 	else
 		dsc_cfg->nfl_bpg_offset = 0;
 	if (dsc_cfg->nfl_bpg_offset > 65535)
 	{
-		printf("nfl_bpg_offset is too large for this slice height\n");
-		invalid = 1;
+		/*printf("nfl_bpg_offset is too large for this slice height\n");
+		invalid = 1;*/
 	}
 	if(dsc_cfg->slice_height > 2)
 		dsc_cfg->nsl_bpg_offset = (int)ceil((double)(dsc_cfg->second_line_bpg_ofs << OFFSET_FRACTIONAL_BITS) / (dsc_cfg->slice_height - 1));
@@ -745,8 +749,8 @@ int compute_rc_parameters(dsc_cfg_t *dsc_cfg, int pixelsPerGroup, int numSsps)
 		dsc_cfg->nsl_bpg_offset = 0;
 	if (dsc_cfg->nsl_bpg_offset > 65535)
 	{
-		printf("nsl_bpg_offset is too large for this slice height\n");
-		invalid = 1;
+		/*printf("nsl_bpg_offset is too large for this slice height\n");
+		invalid = 1;*/
 	}
 	groups_total = groupsPerLine * dsc_cfg->slice_height;
 	dsc_cfg->slice_bpg_offset = (int)ceil((double)(1<<OFFSET_FRACTIONAL_BITS) * 
@@ -756,11 +760,13 @@ int compute_rc_parameters(dsc_cfg_t *dsc_cfg, int pixelsPerGroup, int numSsps)
 
 	if(dsc_cfg->slice_height == 1)
 	{
-		if(dsc_cfg->first_line_bpg_ofs > 0)
-			UErr("For slice_height == 1, the FIRST_LINE_BPG_OFFSET must be 0\n");
+		/*if(dsc_cfg->first_line_bpg_ofs > 0)
+			UErr("For slice_height == 1, the FIRST_LINE_BPG_OFFSET must be 0\n");*/
 	} else if(pixelsPerGroup * bitsPerPixel - 
 			((double)(dsc_cfg->slice_bpg_offset + dsc_cfg->nfl_bpg_offset)/(1<<OFFSET_FRACTIONAL_BITS)) < (1.0+5.0*pixelsPerGroup))
-		UErr("The bits/pixel allocation for non-first lines is too low (<5.33bpp).\nConsider decreasing FIRST_LINE_BPG_OFFSET.");
+	{
+		//UErr("The bits/pixel allocation for non-first lines is too low (<5.33bpp).\nConsider decreasing FIRST_LINE_BPG_OFFSET.");
+	}
 
 	// BEGIN scale_increment_interval fix
 	if(final_scale > 9)
@@ -772,8 +778,8 @@ int compute_rc_parameters(dsc_cfg_t *dsc_cfg, int pixelsPerGroup, int numSsps)
 					                            ((double)(final_scale - 9) * (dsc_cfg->nfl_bpg_offset + dsc_cfg->slice_bpg_offset + dsc_cfg->nsl_bpg_offset)));
 		if (dsc_cfg->scale_increment_interval > 65535)
 		{
-			printf("scale_increment_interval is too large for this slice height.\n");
-			invalid = 1;
+			/*printf("scale_increment_interval is too large for this slice height.\n");
+			invalid = 1;*/
 		}
 	}
 	else
@@ -904,7 +910,7 @@ int check_qp_for_overflow(dsc_cfg_t *dsc_cfg, int pixelsPerGroup)
 	{
 		printf("WARNING: RC_MAXQP[14] will not guarantee RC model fullness will decrease\n\tin worst case and could cause a buffer overflow condition.\n");
 		printf("\tThis warning can be avoided by increasing the RC_MAXQP[14] value.\n");
-		if (generateRcParameters == 0)
+		/*if (generateRcParameters == 0)
 		{
 			printf("\tIf you are not intending to use customized or specific RC parameters, the code can\n");
 			printf("\tautomatically generate suitable RC parameters by setting GENERATE_RC_PARAMETERS to 2\n");
@@ -912,7 +918,7 @@ int check_qp_for_overflow(dsc_cfg_t *dsc_cfg, int pixelsPerGroup)
 		if (generateRcParameters == 1)
 		{
 			printf("\tThis can be done automatically by setting GENERATE_RC_PARAMETERS = 2 (instead of 1)\n");
-		}
+		}*/
 	}
 	return ((double)max_bits > min_target_bpg * 2);
 }
@@ -950,7 +956,9 @@ void generate_rc_parameters(dsc_cfg_t *dsc_codec)
 		else if (bitsPerPixel >= 12.0)
 			dsc_codec->initial_offset = 5632;
 		else
-			UErr("No auto-generated parameters available for bitsPerPixel < 6 in native 4:2:2 mode\n");
+		{
+			//UErr("No auto-generated parameters available for bitsPerPixel < 6 in native 4:2:2 mode\n");
+		}
 	}
 	else  // 4:4:4 or simple 4:2:2 or native 4:2:0
 	{
@@ -963,7 +971,9 @@ void generate_rc_parameters(dsc_cfg_t *dsc_codec)
 		else if (bitsPerPixel >= 6.0)
 			dsc_codec->initial_offset = 6144;
 		else
-			UErr("No auto-generated parameters available for bitsPerPixel < 6 in 4:4:4 mode (bitsPerPixel < 3 in native 4:2:0)\n");
+		{
+			//UErr("No auto-generated parameters available for bitsPerPixel < 6 in 4:4:4 mode (bitsPerPixel < 3 in native 4:2:0)\n");
+		}
 	}
 	dsc_codec->initial_xmit_delay = (int)(4096.0 / bitsPerPixel + 0.5);
 
@@ -1052,7 +1062,9 @@ void generate_rc_parameters(dsc_cfg_t *dsc_codec)
 		// The following code was added in 1.57g (parameter sanity check)
 		RANGE_CHECK("range_max_qp", dsc_codec->rc_range_parameters[i].range_max_qp, 0, 15 + 2 * (bitsPerComponent - 8));
 		if (dscVersionMinor == 1 && useYuvInput == 1 && dsc_codec->rc_range_parameters[i].range_max_qp > 12 + 2 * (bitsPerComponent - 8))
-			UErr("ERROR: In DSC 1.1 mode with YCbCr, the max QP for range %d must be less than %d\n", i, 12 + 2 * (bitsPerComponent - 8));
+		{
+			//UErr("ERROR: In DSC 1.1 mode with YCbCr, the max QP for range %d must be less than %d\n", i, 12 + 2 * (bitsPerComponent - 8));
+		}
 	}
 }
 
@@ -1080,7 +1092,9 @@ void populate_pps(dsc_cfg_t *dsc_codec, int *slicew, int *sliceh)
 	dsc_codec->native_420 = native420;
 	dsc_codec->native_422 = native422;
 	if (native422 && native420)
-		UErr("ERROR: NATIVE_420 and NATIVE_422 modes cannot both be enabled at the same time\n");
+	{
+		//UErr("ERROR: NATIVE_420 and NATIVE_422 modes cannot both be enabled at the same time\n");
+	}
 
 	if (dscVersionMinor == 1)
 	{
@@ -1090,10 +1104,14 @@ void populate_pps(dsc_cfg_t *dsc_codec, int *slicew, int *sliceh)
 	dsc_codec->dsc_version_minor = dscVersionMinor;
 	dsc_codec->full_ich_err_precision = fullIchErrPrecision;
 	if (dscVersionMinor == 1 && fullIchErrPrecision)
-		UErr("ERROR: Alternate ICH selection only supported in DSC 1.2 mode\n");
+	{
+		//UErr("ERROR: Alternate ICH selection only supported in DSC 1.2 mode\n");
+	}
 	dsc_codec->second_line_ofs_adj = secondLineOfsAdj;
 	if (function == 3 && (dsc_codec->pic_width == 0 || dsc_codec->pic_height == 0))
-		UErr("ERROR: When using FUNCTION 3 (print PPS), the PIC_WIDTH and PIC_HEIGHT must be specified in the cfg file");
+	{
+		//UErr("ERROR: When using FUNCTION 3 (print PPS), the PIC_WIDTH and PIC_HEIGHT must be specified in the cfg file");
+	}
 	RANGE_CHECK("pic_width", dsc_codec->pic_width, 1, 65535);
 	RANGE_CHECK("pic_height", dsc_codec->pic_height, 1, 65535);
 	dsc_codec->simple_422 = simple422;
@@ -1105,14 +1123,18 @@ void populate_pps(dsc_cfg_t *dsc_codec, int *slicew, int *sliceh)
 		dsc_codec->linebuf_depth = lineBufferBpc;
 		RANGE_CHECK("linebuf_depth", dsc_codec->linebuf_depth, 8, 13);
 		if (dsc_codec->bits_per_component != 8 && dsc_codec->bits_per_component != 10 && dsc_codec->bits_per_component != 12)
-			UErr("bits_per_component must be either 8, 10, or 12\n");
+		{
+			//UErr("bits_per_component must be either 8, 10, or 12\n");
+		}
 	}
 	else {					// DSC 1.2
 		dsc_codec->linebuf_depth = lineBufferBpc;
 		RANGE_CHECK("linebuf_depth", dsc_codec->linebuf_depth, 8, 16);
 		if (dsc_codec->bits_per_component != 8 && dsc_codec->bits_per_component != 10 && dsc_codec->bits_per_component != 12 &&
 			dsc_codec->bits_per_component != 14 && dsc_codec->bits_per_component != 16)
-			UErr("bits_per_component must be either 8, 10, 12, 14, or 16\n");
+		{
+			//UErr("bits_per_component must be either 8, 10, 12, 14, or 16\n");
+		}
 	}
 
 	// Removed from PPS in v1.44:
@@ -1137,7 +1159,9 @@ void populate_pps(dsc_cfg_t *dsc_codec, int *slicew, int *sliceh)
 	dsc_codec->rc_edge_factor = rcEdgeFactor;
 	RANGE_CHECK("rc_edge_factor", dsc_codec->rc_edge_factor, 0, 15);
 	if (rcEdgeFactor < 2)
+	{
 		printf("WARNING: The rate control will not work as designed with rc_edge_factor < 2.\n");
+	}
 	dsc_codec->rc_quant_incr_limit1 = quantIncrLimit1;
 	RANGE_CHECK("rc_quant_incr_limit1", dsc_codec->rc_quant_incr_limit1, 0, 31);
 	dsc_codec->rc_quant_incr_limit0 = quantIncrLimit0;
@@ -1154,26 +1178,38 @@ void populate_pps(dsc_cfg_t *dsc_codec, int *slicew, int *sliceh)
 			dsc_codec->rc_range_parameters[i].range_bpg_offset = rcOffset[i];
 			RANGE_CHECK("range_bpg_offset", dsc_codec->rc_range_parameters[i].range_bpg_offset, -32, 31);
 			if ((i>0) && (prev_offset < rcOffset[i]))
+			{
 				printf("WARNING: The RC_OFFSET values should not increase as the range increases\n");
+			}
 			dsc_codec->rc_range_parameters[i].range_max_qp = rcMaxQp[i];
 			RANGE_CHECK("range_max_qp", dsc_codec->rc_range_parameters[i].range_max_qp, 0, 15 + 2 * (bitsPerComponent - 8));
 			if (dscVersionMinor == 1 && useYuvInput == 1 && dsc_codec->rc_range_parameters[i].range_max_qp > 12 + 2 * (bitsPerComponent - 8))
-				UErr("ERROR: In DSC 1.1 mode with YCbCr, the max QP for range %d must be less than %d\n", i, 12 + 2 * (bitsPerComponent - 8));
+			{
+				//UErr("ERROR: In DSC 1.1 mode with YCbCr, the max QP for range %d must be less than %d\n", i, 12 + 2 * (bitsPerComponent - 8));
+			}
 			if ((i>0) && (prev_max_qp > rcMaxQp[i]))
+			{
 				printf("WARNING: The RC_MAX_QP values should not decrease as the range increases\n");
+			}
 			dsc_codec->rc_range_parameters[i].range_min_qp = rcMinQp[i];
 			RANGE_CHECK("range_min_qp", dsc_codec->rc_range_parameters[i].range_min_qp, 0, 15 + 2 * (bitsPerComponent - 8));
 			if ((i>0) && (prev_min_qp > rcMinQp[i]))
+			{
 				printf("WARNING: The RC_MIN_QP values should not decrease as the range increases\n");
+			}
 		}
 		if (i<NUM_BUF_RANGES - 1)
 		{
 			dsc_codec->rc_buf_thresh[i] = rcBufThresh[i];
 			RANGE_CHECK("rc_buf_thresh", dsc_codec->rc_buf_thresh[i], 0, rcModelSize);
 			if (dsc_codec->rc_buf_thresh[i] & 0x3f)
-				UErr("All rc_buf_thresh must be evenly divisible by 64");
+			{
+				//UErr("All rc_buf_thresh must be evenly divisible by 64");
+			}
 			if ((i>0) && (prev_thresh > rcBufThresh[i]))
+			{
 				printf("WARNING: The RC_BUF_THRESH values should not decrease as the range increases\n");
+			}
 			prev_thresh = rcBufThresh[i];
 		}
 		prev_min_qp = rcMinQp[i];
@@ -1196,7 +1232,9 @@ void populate_pps(dsc_cfg_t *dsc_codec, int *slicew, int *sliceh)
 	RANGE_CHECK("flatness_max_qp", dsc_codec->flatness_max_qp, 0, 31);
 	dsc_codec->flatness_det_thresh = flatnessDetThresh;
 	if (dsc_codec->rc_model_size <= dsc_codec->initial_offset)
-		UErr("INITIAL_OFFSET must be less than RC_MODEL_SIZE\n");
+	{
+		//UErr("INITIAL_OFFSET must be less than RC_MODEL_SIZE\n");
+	}
 	dsc_codec->initial_scale_value = 8 * dsc_codec->rc_model_size / (dsc_codec->rc_model_size - dsc_codec->initial_offset);
 	RANGE_CHECK("initial_scale_value", dsc_codec->initial_scale_value, 0, 63);
 	dsc_codec->vbr_enable = enableVbr;
@@ -1253,7 +1291,7 @@ void populate_pps(dsc_cfg_t *dsc_codec, int *slicew, int *sliceh)
 					}
 				}
 			}
-			UErr("Could not find valid PPS for any slice height\n");
+			//UErr("Could not find valid PPS for any slice height\n");
 		found_sliceh:
 			;
 		}
@@ -1274,23 +1312,27 @@ void populate_pps(dsc_cfg_t *dsc_codec, int *slicew, int *sliceh)
 					break;
 			}
 			if (!(*sliceh))
-				UErr("Could not find valid PPS for any slice height.");
+			{
+				//UErr("Could not find valid PPS for any slice height.");
+			}
 		}
 	}
 	else
 	{
 		if (compute_rc_parameters(dsc_codec, pixelsPerGroup, numSsps))
-			UErr("One or more PPS parameters exceeded their allowed bit depth.");
+		{
+			//UErr("One or more PPS parameters exceeded their allowed bit depth.");
+		}
 	}
 	if (generateRcParameters == 2 && check_qp_for_overflow(dsc_codec, pixelsPerGroup))
 	{
-		printf("Adjusting max_QP[14] from %d ", dsc_codec->rc_range_parameters[14].range_max_qp);
+		/*printf("Adjusting max_QP[14] from %d ", dsc_codec->rc_range_parameters[14].range_max_qp);*/
 		do
 		{
 			dsc_codec->rc_range_parameters[14].range_max_qp++;
 			RANGE_CHECK("range_max_qp", dsc_codec->rc_range_parameters[14].range_max_qp, 0, 15 + 2 * (dsc_codec->bits_per_component - 8));
 		} while (check_qp_for_overflow(dsc_codec, pixelsPerGroup));
-		printf("to %d\n", dsc_codec->rc_range_parameters[14].range_max_qp);
+		//printf("to %d\n", dsc_codec->rc_range_parameters[14].range_max_qp);
 	} else
 		check_qp_for_overflow(dsc_codec, pixelsPerGroup);  // Add this line to check max QP for range 14
 }
@@ -1359,7 +1401,9 @@ int main(int argc, char *argv[])
 		dsc_codec.native_420 = native420;
 		dsc_codec.native_422 = native422;
 		if (native422 && native420)
-			UErr("ERROR: NATIVE_420 and NATIVE_422 modes cannot both be enabled at the same time\n");
+		{
+			//UErr("ERROR: NATIVE_420 and NATIVE_422 modes cannot both be enabled at the same time\n");
+		}
 		dsc_codec.pic_width = picWidth;
 		dsc_codec.pic_height = picHeight;
 		populate_pps(&dsc_codec, &slicew, &sliceh);
@@ -1372,34 +1416,36 @@ int main(int argc, char *argv[])
 
 	if (NULL == (list_fp=fopen(fn_i, "rt")))
 	{
-		fprintf(stderr, "Cannot open list file %s for input\n", fn_i);
-		exit(1);
+		/*fprintf(stderr, "Cannot open list file %s for input\n", fn_i);
+		exit(1);*/
 	}
 
 	if (NULL == (logfp=fopen(fn_log, "wt")))
 	{
-		fprintf(stderr, "Cannot open list file log.txt for output\n");
-		exit(1);
+		/*fprintf(stderr, "Cannot open list file log.txt for output\n");
+		exit(1);*/
 	}
 
 	simple422 = simple422 || enable422;   // DSC 1.1 name is enable_422 and 1.2 name is simple_422
 	if ((simple422 || native422 || native420) && !useYuvInput)
 	{
-		fprintf(stderr, "4:2:2/4:2:0 are only supported in YCbCr mode (USE_YUV_INPUT = 1)\n");
-		exit(1);
+		/*fprintf(stderr, "4:2:2/4:2:0 are only supported in YCbCr mode (USE_YUV_INPUT = 1)\n");
+		exit(1);*/
 	}
 
 	if (dpxFileOutput && hdrDpxFileOutput)
 	{
-		fprintf(stderr, "Only one of DPX_FILE_OUTPUT and HDR_DPX_FILE_OUTPUT can be enabled\n");
-		exit(1);
+		/*fprintf(stderr, "Only one of DPX_FILE_OUTPUT and HDR_DPX_FILE_OUTPUT can be enabled\n");
+		exit(1);*/
 	}
 
 	set_convertbits_rounding(bitDepthConvRounding);
 
 	infname[0] = '\0';
 	if (fgets(infname, 512, list_fp) == NULL)
-		UErr("Unexpected end of list file\n");
+	{
+		//UErr("Unexpected end of list file\n");
+	}
 
 #ifdef WIN32
 	sprintf(dsc_file_path, "%s\\", fn_o);
@@ -1429,26 +1475,28 @@ int main(int argc, char *argv[])
 		{
 			type = hdr_dpx_determine_file_type(infname);
 			if (type == -1)
-				UErr("hdr_dpx_determine_file_type failed\n");
+			{
+				//UErr("hdr_dpx_determine_file_type failed\n");
+			}
 			if (type == 1 || type == 2)
 			{
 				if (dpx_read(infname, &ip, dpxRPadEnds, dpxRForceBe, dpxRDatumOrder, rbSwap))
 				{
-					if (function != 2)
+					/*if (function != 2)
 					{
 						fprintf(stderr, "Error read DPX file %s\n", infname);
 						exit(1);
-					}
+					}*/
 				}
 			}
 			else {
 				if (hdr_dpx_read(infname, &ip, &hdrdpx_f, &hdrdpx_user, &hdrdpx_sbm))
 				{
-					if (function != 2)
+					/*if (function != 2)
 					{
 						fprintf(stderr, "Error read HDR DPX file %s\n", infname);
 						exit(1);
-					}
+					}*/
 				}
 			}
 		}
@@ -1461,11 +1509,11 @@ int main(int argc, char *argv[])
 			
 			if (ppm_read(infname, &ip))
 			{
-				if (function != 2)
+				/*if (function != 2)
 				{
 					fprintf(stderr, "Error read PPM file %s\n", infname);
 					exit(1);
-				}
+				}*/
 			}
 		}
 		else if (!strcmp(extension, "yuv") || !strcmp(extension, "YUV"))
@@ -1478,22 +1526,22 @@ int main(int argc, char *argv[])
 			// Right now just reads first frame of a YUV file, could be extended to read multiple frames
 			if (yuv_read(infname, &ip, picWidth, picHeight, frameNumber, bitsPerComponent, &num_frames, yuvFileFormat))
 			{
-				if (function != 2)
+				/*if (function != 2)
 				{
 					fprintf(stderr, "Error read YUV file %s\n", infname);
 					exit(1);
-				}
+				}*/
 			}
 			multiFrameYuvFile = (frameNumber < num_frames-1);  // will be false for last frame of multi-frame file, which is ok since frameNumber will be nonzero
 		}
 		else if (strcmp(extension, "dsc") && strcmp(extension, "DSC"))
 		{
 			dsc_file_path[0] = '\0';
-			if (function != 2)
+			/*if (function != 2)
 			{
 				printf(".dsc file encountered in input list, switching to decode only (FUNCTION 2)\n");
 				function = 2;
-			}
+			}*/
 		}
 
 		if (function == 0 || function == 1)
@@ -1505,28 +1553,34 @@ int main(int argc, char *argv[])
 			dsc_codec.convert_rgb = !useYuvInput;
 			if ((dsc_codec.simple_422 || dsc_codec.native_422 || dsc_codec.native_420) && (sliceWidth % 2))
 			{
-				UErr("ERROR: 4:2:2 slice width is constrained to be a multiple of 2.\n");
+				//UErr("ERROR: 4:2:2 slice width is constrained to be a multiple of 2.\n");
 			}
 			if ((dsc_codec.native_420) && (sliceHeight % 2))
 			{
-				UErr("ERROR: 4:2:0 slice height is constrained to be a multiple of 2.\n");
+				//UErr("ERROR: 4:2:0 slice height is constrained to be a multiple of 2.\n");
 			}
 		}
 		else  // (function == 2)  // If decoding, read in PPS
 		{
 			if (frameNumber > 0 || multiFrameYuvFile)		// If YUV reference has multi-frames, use DSC file per frame
+			{
 				sprintf(bitsfname, "%s%s_%06d.dsc", dsc_file_path, base_name, frameNumber);
+			}
 			else
+			{
 				sprintf(bitsfname, "%s%s.dsc", dsc_file_path, base_name);
+			}
 
  			if ((bits_fp = fopen(bitsfname, "rb")) == NULL)
 			{
-				printf("Fatal error: Cannot open bitstream input file %s\n", bitsfname);
-				exit(1);
+				/*printf("Fatal error: Cannot open bitstream input file %s\n", bitsfname);
+				exit(1);*/
 			}
 
 			if ((fgetc(bits_fp) != 'D') || (fgetc(bits_fp) != 'S') || (fgetc(bits_fp) != 'C') || (fgetc(bits_fp) != 'F'))
-				UErr("DSC file read error, invalid magic number\n");
+			{
+				//UErr("DSC file read error, invalid magic number\n");
+			}
 			for (i = 0; i<PPS_SIZE; ++i)
 				pps[i] = fgetc(bits_fp);
 			parse_pps(pps, &dsc_codec);
@@ -1544,9 +1598,13 @@ int main(int argc, char *argv[])
 			dsc_codec.mux_word_size = (dsc_codec.bits_per_component >= 12) ? 64 : 48;
 
 			if((dsc_codec.pic_width & 1) && (dsc_codec.native_420 || dsc_codec.native_422 || dsc_codec.simple_422))
-				UErr("DSC file read error on %s: pic_width cannot be odd if any of native_420, native_422, or simple_422 are enabled\n", bitsfname);
+			{
+				//UErr("DSC file read error on %s: pic_width cannot be odd if any of native_420, native_422, or simple_422 are enabled\n", bitsfname);
+			}
 			if ((dsc_codec.pic_height & 1) && dsc_codec.native_420)
-				UErr("DSC file readd error on %s: pic_height cannot be odd if native_420 is enabled", bitsfname);
+			{
+				//UErr("DSC file readd error on %s: pic_height cannot be odd if native_420 is enabled", bitsfname);
+			}
 		}
 
 		if (ip)
@@ -1662,7 +1720,9 @@ int main(int argc, char *argv[])
 		}
 		
 		if(dsc_codec.native_422 && dsc_codec.native_420)
-			UErr("ERROR: NATIVE_420 and NATIVE_422 modes cannot both be enabled at the same time\n");
+		{
+			//UErr("ERROR: NATIVE_420 and NATIVE_422 modes cannot both be enabled at the same time\n");
+		}
 	
 		if (ip && dsc_codec.simple_422 && !dsc_codec.native_422)
 		{
@@ -1675,8 +1735,8 @@ int main(int argc, char *argv[])
 		{
 			if (!ip)
 			{
-				fprintf(stderr, "Cannot use .dsc file as input\n");
-				exit(1);
+				/*fprintf(stderr, "Cannot use .dsc file as input\n");
+				exit(1);*/
 			}
 			dsc_codec.pic_width = ref_pic->w;
 			dsc_codec.pic_height = ip->h;
@@ -1697,8 +1757,8 @@ int main(int argc, char *argv[])
 #endif
 				if ((bits_fp = fopen(bitsfname, "wb")) == NULL)
 				{
-					printf("Fatal error: Cannot open bitstream output file %s\n", bitsfname);
-					exit(1);
+					/*printf("Fatal error: Cannot open bitstream output file %s\n", bitsfname);
+					exit(1);*/
 				}
 				//fwrite((void *)&dsc_codec, sizeof(dsc_cfg_t), 1, bits_fp);
 				fputc('D', bits_fp); fputc('S', bits_fp); fputc('C', bits_fp); fputc('F', bits_fp);
@@ -1829,8 +1889,8 @@ int main(int argc, char *argv[])
 				strcat(f, ".out.yuv");
 				if (yuv_write(f, op_dsc, frameNumber, yuvFileFormat))
 				{
-					fprintf(stderr, "Error writing YUV file %s\n", f);
-					exit(1);
+					/*fprintf(stderr, "Error writing YUV file %s\n", f);
+					exit(1);*/
 				}
 			}
 			if (dpxFileOutput)
@@ -1853,8 +1913,8 @@ int main(int argc, char *argv[])
 				}
 				if (dpx_write(f, op_dsc, dpxWPadEnds, dpxWDatumOrder, dpxWForcePacking, rbSwapOut, dpxWByteSwap))
 				{
-					fprintf(stderr, "Error writing DPX file %s\n", f);
-					exit(1);
+					/*fprintf(stderr, "Error writing DPX file %s\n", f);
+					exit(1);*/
 				}
 			}
 			if (hdrDpxFileOutput)
@@ -1886,8 +1946,8 @@ int main(int argc, char *argv[])
 
 				if (hdr_dpx_write(f, op_dsc, &hdrdpx_f, NULL, NULL, 0, NULL))
 				{
-					fprintf(stderr, "Error writing HDR DPX file %s\n", f);
-					exit(1);
+					/*fprintf(stderr, "Error writing HDR DPX file %s\n", f);
+					exit(1);*/
 				}
 			}
 			if (ppmFileOutput)
@@ -1904,8 +1964,8 @@ int main(int argc, char *argv[])
 				strcat(f, ".out.ppm");
 				if (ppm_write(f, op_dsc))
 				{
-					fprintf(stderr, "Error writing PPM file %s\n", f);
-					exit(1);
+					/*fprintf(stderr, "Error writing PPM file %s\n", f);
+					exit(1);*/
 				}
 			}
 		}
@@ -2002,8 +2062,8 @@ int main(int argc, char *argv[])
 				strcat(f, ".ref.yuv");
 				if (yuv_write(f, ref_pic, frameNumber, yuvFileFormat))
 				{
-					fprintf(stderr, "Error writing YUV file %s\n", f);
-					exit(1);
+					/*fprintf(stderr, "Error writing YUV file %s\n", f);
+					exit(1);*/
 				}
 			}
 			if (dpxFileOutput)
@@ -2026,8 +2086,8 @@ int main(int argc, char *argv[])
 				}
 				if (dpx_write(f, ref_pic, dpxWPadEnds, dpxWDatumOrder, dpxWForcePacking, rbSwapOut, dpxWByteSwap))
 				{
-					fprintf(stderr, "Error writing DPX file %s\n", f);
-					exit(1);
+					/*fprintf(stderr, "Error writing DPX file %s\n", f);
+					exit(1);*/
 				}
 			}
 			if (hdrDpxFileOutput)
@@ -2059,8 +2119,8 @@ int main(int argc, char *argv[])
 
 				if (hdr_dpx_write(f, ref_pic, &hdrdpx_f, NULL, NULL, 0, NULL))
 				{
-					fprintf(stderr, "Error writing HDR DPX file %s\n", f);
-					exit(1);
+					/*fprintf(stderr, "Error writing HDR DPX file %s\n", f);
+					exit(1);*/
 				}
 			}
 			if (ppmFileOutput)
@@ -2077,8 +2137,8 @@ int main(int argc, char *argv[])
 				strcat(f, ".ref.ppm");
 				if (ppm_write(f, ref_pic))
 				{
-					fprintf(stderr, "Error writing PPM file %s\n", f);
-					exit(1);
+					/*fprintf(stderr, "Error writing PPM file %s\n", f);
+					exit(1);*/
 				}
 			}
 		}

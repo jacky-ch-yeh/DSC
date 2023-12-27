@@ -79,7 +79,9 @@ void compute_and_display_PSNR(pic_t *p_in, pic_t *p_out, int bpp, FILE *logfp)
 	Max = (1<<bpp)-1;
 
 	if (p_in->bits != p_out->bits)
-		printf("in out bits not matched\n");
+	{
+		//printf("in out bits not matched\n");
+	}
 
 	if (p_in->color == RGB) 
 	{

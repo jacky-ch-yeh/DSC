@@ -63,8 +63,8 @@ void *palloc(int w, int h)
     p = (int **) calloc(h, sizeof(short *));
     if (p == NULL)
     {
-		fprintf(stderr, "ERROR: Failed to allocate memory. This can sometimes happen for larger images when using a 32-bit binary,\n\tso you might be able to fix this error by recompiling a 64-bit executable.\n");
-        exit(1);
+		/*fprintf(stderr, "ERROR: Failed to allocate memory. This can sometimes happen for larger images when using a 32-bit binary,\n\tso you might be able to fix this error by recompiling a 64-bit executable.\n");
+        exit(1);*/
     }
     else
         for (i = 0; i < h; i++)
@@ -72,8 +72,8 @@ void *palloc(int w, int h)
             p[i] = calloc(w, sizeof(int));
             if (p[i] == NULL)
             {
-				fprintf(stderr, "ERROR: Failed to allocate memory. This can sometimes happen for larger images when using a 32-bit binary,\n\tso you might be able to fix this error by recompiling a 64-bit executable.\n");
-				exit(1);
+				/*fprintf(stderr, "ERROR: Failed to allocate memory. This can sometimes happen for larger images when using a 32-bit binary,\n\tso you might be able to fix this error by recompiling a 64-bit executable.\n");
+				exit(1);*/
             }
         }
     return p;
@@ -88,8 +88,8 @@ pic_t *pcreate(int format, int color, int chroma, int w, int h)
 
     if (p == NULL)
     {
-		fprintf(stderr, "ERROR: Failed to allocate memory. This can sometimes happen for larger images when using a 32-bit binary,\n\tso you might be able to fix this error by recompiling a 64-bit executable.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: Failed to allocate memory. This can sometimes happen for larger images when using a 32-bit binary,\n\tso you might be able to fix this error by recompiling a 64-bit executable.\n");
+		exit(1);*/
     }
 
     p->format = format;
@@ -153,8 +153,8 @@ pic_t *pcreate_ext(format_t format, color_t color, chroma_t chroma, int w, int h
 
 	if (p == NULL)
 	{
-		fprintf(stderr, "ERROR: Failed to allocate memory. This can sometimes happen for larger images when using a 32-bit binary,\n\tso you might be able to fix this error by recompiling a 64-bit executable.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: Failed to allocate memory. This can sometimes happen for larger images when using a 32-bit binary,\n\tso you might be able to fix this error by recompiling a 64-bit executable.\n");
+		exit(1);*/
 	}
 
 	p->format = format;
@@ -201,8 +201,8 @@ pic_t *pcreate_ext(format_t format, color_t color, chroma_t chroma, int w, int h
 		p->data.yuv.a = (int **)palloc(w * dwords_per_sample, h);
 	}
 	else {
-		fprintf(stderr, "pcreate_ext() failed, unrecognized chroma format\n");
-		return NULL;
+		/*fprintf(stderr, "pcreate_ext() failed, unrecognized chroma format\n");
+		return NULL;*/
 	}
 
 	// Set defaults for deterministic DPX output
@@ -311,37 +311,37 @@ void rgb2yuv(pic_t *ip, pic_t *op)
 
     if (ip->chroma != YUV_444)
     {
-        fprintf(stderr, "ERROR: rgb2yuv() Incorrect input chroma type.\n");
-        exit(1);
+        /*fprintf(stderr, "ERROR: rgb2yuv() Incorrect input chroma type.\n");
+        exit(1);*/
     }
 
     if (ip->color != RGB)
     {
-        fprintf(stderr, "ERROR: rgb2yuv() Incorrect input color type.\n");
-        exit(1);
+        /*fprintf(stderr, "ERROR: rgb2yuv() Incorrect input color type.\n");
+        exit(1);*/
     }
 
     if (ip->w != op->w || ip->h != op->h)
     {
-        fprintf(stderr, "ERROR: rgb2yuv() Incorrect picture size.\n");
-        exit(1);
+        /*fprintf(stderr, "ERROR: rgb2yuv() Incorrect picture size.\n");
+        exit(1);*/
     }
 
     if (op->chroma != YUV_444)
     {
-        fprintf(stderr, "ERROR: rgb2yuv() Incorrect output chroma type.\n");
-        exit(1);
+        /*fprintf(stderr, "ERROR: rgb2yuv() Incorrect output chroma type.\n");
+        exit(1);*/
     }
 
     if (op->color != YUV_SD && op->color != YUV_HD)
     {
-        fprintf(stderr, "ERROR: rgb2yuv() Incorrect output color type.\n");
-        exit(1);
+        /*fprintf(stderr, "ERROR: rgb2yuv() Incorrect output color type.\n");
+        exit(1);*/
     }
 	if((ip->bits < 8) || (ip->bits > 16))
 	{
-		fprintf(stderr, "ERROR: rgb2yuv() Unsupported bit resolution (bits=%d).\n", ip->bits);
-        exit(1);
+		/*fprintf(stderr, "ERROR: rgb2yuv() Unsupported bit resolution (bits=%d).\n", ip->bits);
+        exit(1);*/
 	}
 	pcopy_header(ip, op);
 
@@ -370,8 +370,8 @@ void rgb2yuv(pic_t *ip, pic_t *op)
             }
             else
             {
-                fprintf(stderr, "ERROR: rgb2yuv() Incorrect output color type.\n");
-                exit(1);
+                /*fprintf(stderr, "ERROR: rgb2yuv() Incorrect output color type.\n");
+                exit(1);*/
             }
 
             // rounding
@@ -396,32 +396,32 @@ void yuv2rgb(pic_t *ip, pic_t *op)
 
     if (ip->chroma != YUV_444)
     {
-        fprintf(stderr, "ERROR: Incorrect input chroma type.\n");
-        exit(1);
+        /*fprintf(stderr, "ERROR: Incorrect input chroma type.\n");
+        exit(1);*/
     }
 
     if (ip->color != YUV_SD && ip->color != YUV_HD)
     {
-        fprintf(stderr, "ERROR: Incorrect input color type.\n");
-        exit(1);
+        /*fprintf(stderr, "ERROR: Incorrect input color type.\n");
+        exit(1);*/
     }
 
     if (ip->w != op->w || ip->h != op->h)
     {
-        fprintf(stderr, "ERROR: Incorrect picture size.\n");
-        exit(1);
+        /*fprintf(stderr, "ERROR: Incorrect picture size.\n");
+        exit(1);*/
     }
 
     if (op->chroma != YUV_444)
     {
-        fprintf(stderr, "ERROR: Incorrect output chroma type.\n");
-        exit(1);
+        /*fprintf(stderr, "ERROR: Incorrect output chroma type.\n");
+        exit(1);*/
     }
 
     if (op->color != RGB)
     {
-        fprintf(stderr, "ERROR: Incorrect output color type.\n");
-        exit(1);
+        /*fprintf(stderr, "ERROR: Incorrect output color type.\n");
+        exit(1);*/
     }
 	pcopy_header(ip, op);
 
@@ -450,8 +450,8 @@ void yuv2rgb(pic_t *ip, pic_t *op)
             }
             else
             {
-                fprintf(stderr, "ERROR: Incorrect output color type.\n");
-                exit(1);
+                /*fprintf(stderr, "ERROR: Incorrect output color type.\n");
+                exit(1);*/
             }
 
             r += 0.5;
@@ -542,8 +542,8 @@ void yuv_444_422(pic_t *ip, pic_t *op)
     {
 		if (ip->chroma != YUV_422)
 		{
-			printf("ERROR: Incorrect input chroma type.\n");
-			exit(1);
+			/*printf("ERROR: Incorrect input chroma type.\n");
+			exit(1);*/
 		}
 		else
 		{
@@ -571,8 +571,8 @@ void yuv_444_422(pic_t *ip, pic_t *op)
     {
 	    if (ip->w != op->w || ip->h != op->h)
 	    {
-			printf("ERROR: Incorrect picture size.\n");
-			exit(1);
+			/*printf("ERROR: Incorrect picture size.\n");
+			exit(1);*/
 		}
 
 	    op->chroma = YUV_422; // force to 4:2:2
@@ -622,15 +622,15 @@ void yuv_422_420(pic_t *ip, pic_t *op)
 
     if (ip->chroma != YUV_422)
     {
-		printf("ERROR: Incorrect input chroma type.\n");
-		exit(1);
+		/*printf("ERROR: Incorrect input chroma type.\n");
+		exit(1);*/
     }
     else
     {
 	    if (ip->w != op->w || ip->h != op->h)
 	    {
-			printf("ERROR: Incorrect picture size.\n");
-			exit(1);
+			/*printf("ERROR: Incorrect picture size.\n");
+			exit(1);*/
 		}
 
 	    op->chroma = YUV_420; // force to 4:2:0
@@ -1029,8 +1029,8 @@ pic_t *convertbits(pic_t *p, int newbits)
 	}
 
 	if (error) {
-		fprintf(stderr, "ERROR: Calling convert8to10() with incompatible format.  Only handle RGB444 or YUV422 or YUV444.\n");
-		exit(1);
+		/*fprintf(stderr, "ERROR: Calling convert8to10() with incompatible format.  Only handle RGB444 or YUV422 or YUV444.\n");
+		exit(1);*/
 	}
 	return(new_p);
 }
@@ -1081,12 +1081,14 @@ pic_t *readppm(FILE *fp)
 	int bits;
 
 	if (fgets(line, 1000, fp) == NULL)
-		Err("Error reading PPM file\n");
+	{
+		//Err("Error reading PPM file\n");
+	}
 	gettoken(fp, token, line, &pos);
 
 	if (token[0] != 'P')
 	{
-		Err("Incorrect file type.");
+		//Err("Incorrect file type.");
 	}
 	strcpy(magicnum, token);
 
@@ -1109,8 +1111,8 @@ pic_t *readppm(FILE *fp)
 		bits = 16;
 	else
 	{
-		printf("PPM read error, maxval = %d\n", maxval);
-		return(NULL);
+		/*printf("PPM read error, maxval = %d\n", maxval);
+		return(NULL);*/
 	}
 	p = pcreate_ext(FRAME, RGB, YUV_444, w, h, bits);
 	p->limited_range = 0;
@@ -1120,7 +1122,9 @@ pic_t *readppm(FILE *fp)
 			for (j = 0; j < w; j++)
 			{
 				if (fscanf(fp, "%d", &g) != 1)  // Gray value in PGM
-					Err("Error reading PPM (PGM) file\n");
+				{
+					//Err("Error reading PPM (PGM) file\n");
+				}
 				p->data.rgb.r[i][j] = g;
 				p->data.rgb.g[i][j] = g;
 				p->data.rgb.b[i][j] = g;
@@ -1210,7 +1214,9 @@ int ppm_read(char *fname, pic_t **pic)
 	fp = fopen(fname, "rb");
 
 	if (fp == NULL)
-		return(-1);  // Error condition
+	{
+		//return(-1);  // Error condition
+	}
 
 	*pic = readppm(fp);
 
@@ -1251,7 +1257,9 @@ int ppm_write(char *fname, pic_t *pic_in)
 	fp = fopen(fname, "wb");
 
 	if (fp == NULL)
-		return(-1);  // Error condition
+	{
+		//return(-1);  // Error condition
+	}
 
 	if (pic_in->bits == 32 || pic_in->bits == 64)  // Create a 16-bit fixed point pic from a floating point one
 	{
@@ -1345,8 +1353,8 @@ int yuv_read(char *fname, pic_t **ip, int width, int height, int framenum, int b
 
 	if ((fp = fopen(fname, "rb")) == NULL)
 	{
-		printf("Could not read YUV file %s\n", fname);
-		return(1);
+		/*printf("Could not read YUV file %s\n", fname);
+		return(1);*/
 	}
 
 	*ip = pcreate_ext(0, YUV_HD, (filetype == 1) ? YUV_422 : YUV_420, width, height, bpc);
@@ -1385,8 +1393,8 @@ int yuv_read(char *fname, pic_t **ip, int width, int height, int framenum, int b
 				(*ip)->data.yuv.y[i][j] |= (fgetc(fp) << 8);
 			if ((*ip)->data.yuv.y[i][j] < 0 || (*ip)->data.yuv.y[i][j] > maxval)
 			{
-				printf("YUV read error: sample value did not match expected bit depth\n");
-				return (1);
+				/*printf("YUV read error: sample value did not match expected bit depth\n");
+				return (1);*/
 			}
 		}
 	for (i = 0; i<height / 2; ++i)
@@ -1453,15 +1461,15 @@ int yuv_write(char *fname, pic_t *op, int framenum, int filetype)
 	{
 		if ((fp = fopen(fname, "wb")) == NULL)
 		{
-			printf("Could not write YUV file %s\n", fname);
-			return(1);
+			/*printf("Could not write YUV file %s\n", fname);
+			return(1);*/
 		}
 	}
 	else {
 		if ((fp = fopen(fname, "ab")) == NULL)
 		{
-			printf("Could not write YUV file %s\n", fname);
-			return(1);
+			/*printf("Could not write YUV file %s\n", fname);
+			return(1);*/
 		}
 	}
 
@@ -1593,8 +1601,8 @@ int rgba_read(char *fname, pic_t **ip, int width, int height, int bpc, int alpha
 
 	if ((fp = fopen(fname, "rb")) == NULL)
 	{
-		printf("Could not read YUV file %s\n", fname);
-		return(1);
+		/*printf("Could not read YUV file %s\n", fname);
+		return(1);*/
 	}
 
 	*ip = pcreate_ext(0, RGB, YUV_444, width, height, bpc);
@@ -1642,8 +1650,8 @@ void convert_rgb_2020_to_709(pic_t *ip, pic_t *op)
 
 	if (ip->bits >= 32)
 	{
-		printf("ERROR: convert_rgb_2020_to_709() does not support floating point\n");
-		exit(1);
+		/*printf("ERROR: convert_rgb_2020_to_709() does not support floating point\n");
+		exit(1);*/
 	}
 
 	for (k = 0; k < 12; ++k)
@@ -1652,9 +1660,13 @@ void convert_rgb_2020_to_709(pic_t *ip, pic_t *op)
 	maxval = (1 << ip->bits) - 1;
 
 	if (ip->color != RGB || ip->chroma != YUV_444)
-		UErr("Bad input picture to convert_rgb_2020_to_709()");
+	{
+		//UErr("Bad input picture to convert_rgb_2020_to_709()");
+	}
 	if (op->color != RGB || op->chroma != YUV_444)
-		UErr("Bad output picture to convert_rgb_2020_to_709()");
+	{
+		//UErr("Bad output picture to convert_rgb_2020_to_709()");
+	}
 
 	for (i = 0; i<ip->h; ++i)
 		for (j = 0; j < ip->w; ++j)
